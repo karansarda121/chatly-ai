@@ -1,0 +1,25 @@
+.chat-list {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-list h2 {
+  margin: 0;
+  padding: 14px 14px 8px;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.chat-list > p {
+  margin: 0;
+  padding: 10px 14px;
+  color: #8696a0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chat-list__heading{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 7px 14px}.chat-list__heading h2{padding:0}.chat-list__search-toggle{display:grid;width:31px;height:31px;place-items:center;border:1px solid transparent;border-radius:9px;background:transparent;color:#627484;cursor:pointer;transition:background .16s ease,color .16s ease,transform .16s ease}.chat-list__search-toggle:hover{background:#eaf5f2;color:#078466;transform:translateY(-1px)}.chat-list__search-toggle:focus-visible,.chat-list__search button:focus-visible{outline:2px solid #0f9f79;outline-offset:2px}.chat-list__search{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:7px;margin:0 12px 9px;border:1px solid #cde4dd;border-radius:10px;background:#f6fbf9;padding:7px 8px;color:#66808a;box-shadow:0 3px 10px rgb(15 159 121 / 7%);animation:chat-search-enter .16s ease-out}.chat-list__search:focus-within{border-color:#21a582;background:#fff;box-shadow:0 0 0 3px rgb(15 159 121 / 12%),0 5px 12px rgb(15 23 42 / 6%)}.chat-list__search input{min-width:0;border:0;outline:0;background:transparent;color:#183244;font:inherit;font-size:13px}.chat-list__search input::placeholder{color:#8da2ad}.chat-list__search button{display:grid;width:25px;height:25px;place-items:center;border:0;border-radius:7px;background:transparent;color:#728795;cursor:pointer;transition:background .15s ease,color .15s ease}.chat-list__search button:hover{background:#e6f1ee;color:#0b8467}.chat-list__no-results{padding-top:4px!important;color:#627484!important}@keyframes chat-search-enter{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}html[data-theme='dark'] .dashboard-placeholder .chat-list__search{border-color:#315047;background:#142922;color:#9ecfc0}html[data-theme='dark'] .dashboard-placeholder .chat-list__search:focus-within{background:#172f28;border-color:#28ad88;box-shadow:0 0 0 3px rgb(34 197 149 / 14%)}html[data-theme='dark'] .dashboard-placeholder .chat-list__search input{color:#e6edf3}html[data-theme='dark'] .dashboard-placeholder .chat-list__search-toggle:hover,html[data-theme='dark'] .dashboard-placeholder .chat-list__search button:hover{background:#1c4038;color:#74e2bf}
+/* Search fields use one focus surface: the wrapper, never a second inner rectangle. */
+.chat-list__search{min-height:42px;margin:0 10px 12px;border:1px solid #d7e5e2;border-radius:14px;background:linear-gradient(135deg,#fff,#f4fbf8);padding:0 11px;color:#5d7783;box-shadow:0 5px 14px rgb(15 23 42 / 5%)}.chat-list__search:focus-within{border-color:#10a67e;background:#fff;box-shadow:0 0 0 4px rgb(15 159 121 / 13%),0 9px 18px rgb(15 23 42 / 7%)}.chat-list__search input{height:40px;font-size:13px;letter-spacing:.005em}.chat-list__search input:focus-visible{outline:0}.chat-list__search button{width:28px;height:28px;border-radius:9px}.chat-list__search button:hover{background:#dff5ec;color:#06775b}.chat-list__search-toggle{width:34px;height:34px;border-radius:11px}.chat-list__search-toggle:hover{background:linear-gradient(135deg,#e6faf2,#eaf4fb);box-shadow:0 5px 12px rgb(15 159 121 / 11%)}

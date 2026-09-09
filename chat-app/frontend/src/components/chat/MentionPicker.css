@@ -1,0 +1,43 @@
+.message-composer .message-composer__mentions button {
+  display: flex !important;
+  width: 100% !important;
+  height: auto !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  padding: 11px 13px !important;
+  color: #20384d !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  text-align: left !important;
+}
+
+.message-composer .message-composer__mentions button:hover,
+.message-composer .message-composer__mentions button:focus-visible {
+  background: #edf8f5 !important;
+}
+
+.message-composer__mentions {
+  position: absolute;
+}
+
+.message-composer .message-composer__mentions-close {
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  display: grid !important;
+  width: 26px !important;
+  height: 26px !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border-radius: 7px !important;
+  color: #567084 !important;
+}
+
+.message-composer .message-composer__mentions button:nth-child(2) {
+  padding-right: 42px !important;
+}

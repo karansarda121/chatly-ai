@@ -1,0 +1,225 @@
+﻿.dashboard-placeholder {
+  display: flex;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: #0b141a;
+  color: #e9edef;
+}
+
+.dashboard-placeholder__content {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  place-items: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.dashboard-placeholder__error {
+  margin: 0;
+  border-bottom: 1px solid #2a3942;
+  padding: 10px 14px;
+  color: #ffb4ab;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .dashboard-placeholder__content { padding: 0; }
+}
+
+/* Signed-in Chatly workspace: shared light-theme palette. */
+.dashboard-placeholder {
+  background: #f4f8fa !important;
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .app-sidebar,
+.dashboard-placeholder .chat-header,
+.dashboard-placeholder .message-composer,
+.dashboard-placeholder .chat-window__typing,
+.dashboard-placeholder .group-create-modal__dialog,
+.dashboard-placeholder .user-directory-modal__dialog {
+  border-color: #dbe4eb !important;
+  background: #fff !important;
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .app-sidebar__brand,
+.dashboard-placeholder .app-sidebar__profile,
+.dashboard-placeholder .app-sidebar__menu a,
+.dashboard-placeholder .app-sidebar__menu button,
+.dashboard-placeholder .chat-list-item,
+.dashboard-placeholder .chat-header__search,
+.dashboard-placeholder .message-composer__reply,
+.dashboard-placeholder .message-composer__reply button,
+.dashboard-placeholder .message-search input,
+.dashboard-placeholder .message-search form button,
+.dashboard-placeholder .message-search > button,
+.dashboard-placeholder .user-directory-modal__dialog header button,
+.dashboard-placeholder .group-create-modal__dialog {
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .app-sidebar__top,
+.dashboard-placeholder .chat-header,
+.dashboard-placeholder .message-composer,
+.dashboard-placeholder .chat-list-item,
+.dashboard-placeholder .user-search,
+.dashboard-placeholder .user-directory-modal__dialog header {
+  border-color: #e1e9ee !important;
+}
+
+.dashboard-placeholder .app-sidebar__menu,
+.dashboard-placeholder .message-search,
+.dashboard-placeholder .message-delete-menu__options,
+.dashboard-placeholder .group-create-modal__dialog,
+.dashboard-placeholder .user-directory-modal__dialog {
+  border-color: #dbe4eb !important;
+  background: #fff !important;
+  box-shadow: 0 12px 32px rgb(35 62 86 / 14%) !important;
+}
+
+.dashboard-placeholder .app-sidebar__more,
+.dashboard-placeholder .app-sidebar__new-chat,
+.dashboard-placeholder .chat-header__search,
+.dashboard-placeholder .chat-header__group-info,
+.dashboard-placeholder .chat-header__catch-up,
+.dashboard-placeholder .chat-header__memory,
+.dashboard-placeholder .app-sidebar__picture,
+.dashboard-placeholder .chat-header__picture,
+.dashboard-placeholder .chat-list-item__picture,
+.dashboard-placeholder .user-search__picture {
+  background: #eaf1f5 !important;
+  color: #0b8a6b !important;
+}
+
+.dashboard-placeholder .app-sidebar__more:hover,
+.dashboard-placeholder .app-sidebar__new-chat:hover,
+.dashboard-placeholder .app-sidebar__profile:hover,
+.dashboard-placeholder .app-sidebar__menu a:hover,
+.dashboard-placeholder .app-sidebar__menu button:hover,
+.dashboard-placeholder .chat-list-item:hover,
+.dashboard-placeholder .chat-list-item--active,
+.dashboard-placeholder .chat-header__search:hover,
+.dashboard-placeholder .chat-header__group-info:hover,
+.dashboard-placeholder .message-search > button:hover,
+.dashboard-placeholder .user-directory-modal__dialog header button:hover {
+  background: #eef5f7 !important;
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .app-sidebar__profile small,
+.dashboard-placeholder .chat-list > p,
+.dashboard-placeholder .chat-list-item__details small,
+.dashboard-placeholder .chat-header p,
+.dashboard-placeholder .message-search form,
+.dashboard-placeholder .message-search > p,
+.dashboard-placeholder .user-directory-modal__dialog p,
+.dashboard-placeholder .user-search__status,
+.dashboard-placeholder .user-search__details small,
+.dashboard-placeholder .selected-chat-placeholder,
+.dashboard-placeholder .message-list__status {
+  color: #627484 !important;
+}
+
+.dashboard-placeholder .message-list { background: #f1f6f8 !important; }
+.dashboard-placeholder .media-content { background: #e7eef2 !important; }
+
+.dashboard-placeholder .message-bubble {
+  background: #fff !important;
+  box-shadow: 0 2px 7px rgb(35 62 86 / 8%) !important;
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .message-bubble--mine { background: #dff8ef !important; }
+.dashboard-placeholder .message-bubble__deleted,
+.dashboard-placeholder .message-bubble__reply span,
+.dashboard-placeholder .message-bubble time { color: #627484 !important; }
+.dashboard-placeholder .message-bubble__reply,
+.dashboard-placeholder .message-bubble__reactions span { background: #eef5f7 !important; }
+
+.dashboard-placeholder .message-composer input,
+.dashboard-placeholder .message-composer__reply,
+.dashboard-placeholder .user-search__input-wrap,
+.dashboard-placeholder .group-create-modal__dialog input,
+.dashboard-placeholder .group-create-modal__users label:hover {
+  border-color: #d3dfe6 !important;
+  background: #f7fafb !important;
+  color: #172b3a !important;
+}
+
+.dashboard-placeholder .message-composer button,
+.dashboard-placeholder .user-search__input-wrap button,
+.dashboard-placeholder .user-search__results button,
+.dashboard-placeholder .group-create-modal__actions button[type="submit"] {
+  background: #0b8a6b !important;
+  color: #fff !important;
+}
+
+.dashboard-placeholder .media-picker__button,
+.dashboard-placeholder .message-delete-menu > button {
+  background: #eaf1f5 !important;
+  color: #0b8a6b !important;
+}
+
+.dashboard-placeholder .message-delete-menu__options button { color: #172b3a !important; }
+.dashboard-placeholder .message-delete-menu__options button:hover { background: #eef5f7 !important; }
+.dashboard-placeholder .message-delete-menu__reactions { border-color: #e1e9ee !important; }
+.dashboard-placeholder .chat-list-item__online { border-color: #fff !important; }
+.dashboard-placeholder .chat-window__error,
+.dashboard-placeholder__error { background: #fff0ef !important; color: #b23a30 !important; }
+
+/* Calm, consistent workspace surface shared by the whole signed-in experience. */
+.dashboard-placeholder { background:#f6f8fb !important; color:#1e293b !important; }
+.dashboard-placeholder .app-sidebar { width:310px; background:#fff !important; box-shadow:8px 0 24px rgb(15 23 42 / 3%); }
+.dashboard-placeholder .app-sidebar__top { min-height:70px; padding:16px 18px; }
+.dashboard-placeholder .app-sidebar__brand strong { letter-spacing:-.035em; }
+.dashboard-placeholder .app-sidebar__brand > span { border-radius:12px; background:linear-gradient(135deg,#17b989,#07966f) !important; color:#fff !important; box-shadow:0 8px 16px rgb(15 159 121 / 22%); }
+.dashboard-placeholder .app-sidebar__profile { margin:14px 12px 10px; border:1px solid transparent; border-radius:14px; padding:11px; color:#1e293b; transition:background .18s ease,border-color .18s ease,transform .18s ease; }
+.dashboard-placeholder .app-sidebar__profile:hover { border-color:#dce9e5 !important; background:#f2fbf8 !important; transform:translateY(-1px); }
+.dashboard-placeholder .app-sidebar__picture,.dashboard-placeholder .chat-header__picture,.dashboard-placeholder .chat-list-item__picture,.dashboard-placeholder .user-search__picture { background:#e7f7f2 !important; color:#098a68 !important; }
+.dashboard-placeholder .chat-list h2 { padding:18px 18px 9px; color:#64748b; font-size:11px; font-weight:800; letter-spacing:.13em; }
+.dashboard-placeholder .chat-list-item { gap:12px; border-bottom:0 !important; margin:2px 8px; width:calc(100% - 16px); border-radius:12px; padding:11px 10px; transition:background .16s ease,transform .16s ease; }
+.dashboard-placeholder .chat-list-item:hover { background:#f4f8f8 !important; transform:translateX(2px); }
+.dashboard-placeholder .chat-list-item--active { background:#e8f7f2 !important; box-shadow:inset 3px 0 #0f9f79; }
+.dashboard-placeholder .chat-list-item__unread { min-width:22px; height:22px; background:#0f9f79 !important; box-shadow:0 3px 7px rgb(15 159 121 / 25%); }
+.dashboard-placeholder .chat-header { min-height:70px; box-sizing:border-box; padding:13px 24px; box-shadow:0 2px 12px rgb(15 23 42 / 3%); }
+.dashboard-placeholder .chat-header h1 { font-size:15px; font-weight:750; letter-spacing:-.01em; }
+.dashboard-placeholder .chat-header__search,.dashboard-placeholder .chat-header__group-info,.dashboard-placeholder .app-sidebar__more,.dashboard-placeholder .app-sidebar__new-chat { border:1px solid transparent; border-radius:10px; transition:background .16s ease,border-color .16s ease,transform .16s ease; }
+.dashboard-placeholder .chat-header__search:hover,.dashboard-placeholder .chat-header__group-info:hover,.dashboard-placeholder .app-sidebar__more:hover,.dashboard-placeholder .app-sidebar__new-chat:hover { border-color:#d7e5e4 !important; background:#f1f8f7 !important; transform:translateY(-1px); }
+.dashboard-placeholder .message-list { background:radial-gradient(circle at top left,#f8fcfb 0,#f3f7fb 45%,#eef4f8 100%) !important; padding:22px 28px; gap:10px; }
+.dashboard-placeholder .message-bubble { border:1px solid #edf1f5; border-radius:14px 14px 14px 4px; padding:9px 12px; box-shadow:0 4px 14px rgb(15 23 42 / 5%) !important; }
+.dashboard-placeholder .message-bubble--mine { border-color:#c7eadf; border-radius:14px 14px 4px 14px; background:linear-gradient(135deg,#dff8ee,#cff3e3) !important; }
+.dashboard-placeholder .message-bubble strong { color:#098a68 !important; }
+.dashboard-placeholder .message-composer { gap:12px; padding:13px 24px 15px; box-shadow:0 -4px 18px rgb(15 23 42 / 3%); }
+.dashboard-placeholder .message-composer input { border-color:#dbe5ec !important; border-radius:13px; background:#f8fafc !important; padding:12px 15px; transition:border-color .16s ease,box-shadow .16s ease,background .16s ease; }
+.dashboard-placeholder .message-composer input:focus { border-color:#0f9f79 !important; background:#fff !important; box-shadow:0 0 0 4px rgb(15 159 121 / 11%); }
+.dashboard-placeholder .message-composer button { border-radius:12px; box-shadow:0 5px 11px rgb(15 159 121 / 20%); transition:transform .16s ease,box-shadow .16s ease; }
+.dashboard-placeholder .message-composer button:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 8px 16px rgb(15 159 121 / 28%); }
+.dashboard-placeholder .message-composer__translate { box-shadow:none !important; }
+.dashboard-placeholder .message-composer__translate-menu { border-color:#dbe5ec !important; border-radius:14px; background:#fff !important; box-shadow:0 16px 35px rgb(15 23 42 / 15%); color:#1e293b !important; }
+.dashboard-placeholder .message-composer__translate-menu select { border-color:#dbe5ec; background:#f8fafc; color:#1e293b; }
+.dashboard-placeholder .selected-chat-placeholder h1 { color:#193047 !important; letter-spacing:-.04em; }
+.dashboard-placeholder .selected-chat-placeholder { color:#64748b !important; }
+.dashboard-placeholder .user-directory-modal__dialog,.dashboard-placeholder .group-create-modal__dialog,.dashboard-placeholder .message-delete-menu__options { border-radius:16px !important; box-shadow:0 18px 42px rgb(15 23 42 / 14%) !important; }
+.dashboard-placeholder button:focus-visible,.dashboard-placeholder input:focus-visible { outline:3px solid rgb(15 159 121 / 24%); outline-offset:2px; }
+@media (max-width:700px){.dashboard-placeholder .app-sidebar{width:76px}.dashboard-placeholder .chat-header{padding:10px 12px}.dashboard-placeholder .message-list{padding:14px 12px}.dashboard-placeholder .message-composer{padding:10px 12px}}
+
+
+
+/* Dark theme uses the same hierarchy, with softer contrast instead of raw black. */
+html[data-theme='dark'] .dashboard-placeholder{background:#0f1720 !important;color:#e6edf3 !important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar,html[data-theme='dark'] .dashboard-placeholder .chat-header,html[data-theme='dark'] .dashboard-placeholder .message-composer{background:#111c27 !important;border-color:#263647 !important;color:#e6edf3 !important}html[data-theme='dark'] .dashboard-placeholder .chat-list-item:hover,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile:hover,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__more:hover,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__new-chat:hover,html[data-theme='dark'] .dashboard-placeholder .chat-header__search:hover{background:#1b2a37 !important}html[data-theme='dark'] .dashboard-placeholder .chat-list-item--active{background:#153c36 !important;box-shadow:inset 3px 0 #22c59a}html[data-theme='dark'] .dashboard-placeholder .chat-list-item,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile,html[data-theme='dark'] .dashboard-placeholder .chat-header,html[data-theme='dark'] .dashboard-placeholder .chat-header h1{color:#e6edf3 !important}html[data-theme='dark'] .dashboard-placeholder .chat-list-item__details small,html[data-theme='dark'] .dashboard-placeholder .chat-header p,html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder{color:#9eb0c0 !important}html[data-theme='dark'] .dashboard-placeholder .message-list{background:radial-gradient(circle at top left,#172631,#101923 72%) !important}html[data-theme='dark'] .dashboard-placeholder .message-bubble{border-color:#2a3b4a;background:#1b2b38 !important;color:#e6edf3 !important;box-shadow:0 5px 15px rgb(0 0 0 / 14%) !important}html[data-theme='dark'] .dashboard-placeholder .message-bubble--mine{border-color:#256757;background:linear-gradient(135deg,#155749,#13493f) !important}html[data-theme='dark'] .dashboard-placeholder .message-composer input,html[data-theme='dark'] .dashboard-placeholder .message-composer__reply,html[data-theme='dark'] .dashboard-placeholder .message-composer__translate-menu{border-color:#304152 !important;background:#182633 !important;color:#e6edf3 !important}html[data-theme='dark'] .dashboard-placeholder .message-composer input:focus{background:#1d2e3c !important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__picture,html[data-theme='dark'] .dashboard-placeholder .chat-header__picture,html[data-theme='dark'] .dashboard-placeholder .chat-list-item__picture{background:#1c403b !important;color:#6be3bd !important}
+
+/* Modern interaction layer: depth and feedback without changing the workspace flow. */
+.dashboard-placeholder{isolation:isolate}.dashboard-placeholder::before{position:fixed;z-index:-1;top:-18vw;right:-10vw;width:48vw;height:48vw;border-radius:50%;background:radial-gradient(circle,rgb(34 197 149 / 9%),transparent 67%);content:"";pointer-events:none}.dashboard-placeholder .app-sidebar,.dashboard-placeholder .chat-header{backdrop-filter:blur(18px)}.dashboard-placeholder .app-sidebar{border-right:1px solid rgb(219 229 236 / 78%)}.dashboard-placeholder .chat-header{border-bottom-color:rgb(219 229 236 / 72%)}.dashboard-placeholder .chat-header__picture{box-shadow:0 6px 15px rgb(15 159 121 / 13%)}.dashboard-placeholder .chat-header__catch-up{border:1px solid rgb(15 159 121 / 18%);background:linear-gradient(135deg,#ecfff8,#d7f8ec)!important;box-shadow:0 6px 15px rgb(15 159 121 / 12%);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}.dashboard-placeholder .chat-header__catch-up:hover{filter:saturate(1.1);transform:translateY(-1px);box-shadow:0 10px 20px rgb(15 159 121 / 20%)}.dashboard-placeholder .chat-header__memory{border:1px solid rgb(34 107 154 / 12%);box-shadow:0 5px 14px rgb(34 107 154 / 9%);transition:transform .18s ease,box-shadow .18s ease}.dashboard-placeholder .chat-header__memory:hover{transform:translateY(-1px);box-shadow:0 9px 18px rgb(34 107 154 / 14%)}.dashboard-placeholder .chat-list-item__picture{transition:transform .18s ease,box-shadow .18s ease}.dashboard-placeholder .chat-list-item:hover .chat-list-item__picture{transform:scale(1.05);box-shadow:0 6px 13px rgb(15 159 121 / 13%)}.dashboard-placeholder .message-bubble{animation:message-arrive .22s ease-out both}.dashboard-placeholder .message-bubble:hover{box-shadow:0 8px 20px rgb(15 23 42 / 8%)!important;transition:box-shadow .16s ease}.dashboard-placeholder .message-bubble--mine:hover{box-shadow:0 9px 20px rgb(15 159 121 / 14%)!important}.dashboard-placeholder .message-composer{position:relative}.dashboard-placeholder .message-composer::before{position:absolute;top:0;right:24px;left:24px;height:1px;background:linear-gradient(90deg,transparent,rgb(15 159 121 / 28%),transparent);content:""}.dashboard-placeholder .selected-chat-placeholder{animation:workspace-welcome .35s ease-out}.dashboard-placeholder .selected-chat-placeholder__catch-up{border:1px solid rgb(15 159 121 / 18%);border-radius:12px;box-shadow:0 8px 19px rgb(15 159 121 / 13%);transition:transform .18s ease,box-shadow .18s ease}.dashboard-placeholder .selected-chat-placeholder__catch-up:hover{transform:translateY(-1px);box-shadow:0 12px 25px rgb(15 159 121 / 18%)}@keyframes message-arrive{from{opacity:0}to{opacity:1}}@keyframes workspace-welcome{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.dashboard-placeholder *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+/* Forwarded message metadata stays secondary to the actual message. */
+.dashboard-placeholder .message-bubble__forwarded{display:inline-flex;align-items:center;gap:5px;margin:0 0 6px;border-radius:999px;background:rgb(15 159 121 / 9%);padding:3px 7px;color:#52756d;font-size:10px;font-weight:700;font-style:normal;letter-spacing:.015em}.dashboard-placeholder .message-bubble--mine .message-bubble__forwarded{background:rgb(255 255 255 / 42%);color:#43736a}
+html[data-theme='dark'] .dashboard-placeholder .message-bubble__forwarded{background:rgb(107 227 189 / 10%);color:#a7dacb}html[data-theme='dark'] .dashboard-placeholder .message-bubble--mine .message-bubble__forwarded{background:rgb(255 255 255 / 9%);color:#bdeadc}
+/* A menu must sit above neighbouring bubbles; bubbles never transform while it is open. */
+.dashboard-placeholder .message-bubble:has(.message-delete-menu--open){z-index:95}.dashboard-placeholder .message-delete-menu__options{z-index:110!important}@media(min-width:701px){.dashboard-placeholder .message-list{padding-bottom:102px}}.global-catch-up-fab{position:fixed;z-index:40;right:28px;bottom:94px;display:grid;width:56px;height:56px;place-items:center;border:1px solid rgb(255 255 255 / 58%);border-radius:50%;background:conic-gradient(from 210deg,#0b8a6b,#28c89c,#48a9e6,#18b78c,#0b8a6b);color:#fff;box-shadow:0 10px 25px rgb(15 159 121 / 31%),inset 0 1px 1px rgb(255 255 255 / 45%);cursor:pointer;isolation:isolate;transition:transform .2s ease,box-shadow .2s ease}.global-catch-up-fab::before{position:absolute;z-index:-1;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgb(43 202 159 / 29%),transparent 67%);content:"";animation:catch-up-glow 2.4s ease-in-out infinite;pointer-events:none}.global-catch-up-fab:hover{transform:translateY(-3px) scale(1.06) rotate(6deg);box-shadow:0 16px 34px rgb(15 159 121 / 38%),inset 0 1px 1px rgb(255 255 255 / 55%)}.global-catch-up-fab:active{transform:translateY(-1px) scale(.96)}.global-catch-up-fab:focus-visible{outline:3px solid rgb(15 159 121 / 35%);outline-offset:4px}@keyframes catch-up-glow{50%{opacity:.45;transform:scale(1.16)}}@media(max-width:700px){.global-catch-up-fab{right:15px;bottom:84px;width:52px;height:52px}.dashboard-placeholder .message-list{padding-bottom:86px!important}}
+/* Dark workspace contrast: override the light dashboard palette after all shared rules. */
+html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand strong{color:#eef7fb!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand b{color:#62e4be!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile strong{color:#eef7fb!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile small,html[data-theme='dark'] .dashboard-placeholder .chat-list h2,html[data-theme='dark'] .dashboard-placeholder .chat-list>p{color:#9fb2c2!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder h1{color:#edf7fb!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder,html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder p{color:#b4c5d2!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder svg{color:#3ee0b4!important}html[data-theme='dark'] .dashboard-placeholder .chat-header__catch-up,html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder__catch-up{border-color:#2e7666!important;background:linear-gradient(135deg,#193d38,#174b42)!important;color:#8bf0cd!important;box-shadow:0 7px 17px rgb(0 0 0 / 20%)!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__more,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__new-chat{background:#1d2d3a!important;color:#75e0c0!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__more:hover,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__new-chat:hover{background:#264453!important;color:#fff!important}

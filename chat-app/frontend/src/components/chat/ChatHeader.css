@@ -1,0 +1,40 @@
+.chat-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #2a3942;
+  background: #111b21;
+  padding: 14px 20px;
+}
+
+.chat-header__picture {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #2a3942;
+  color: #00a884;
+}
+
+.chat-header__picture img { width: 100%; height: 100%; object-fit: cover; }
+.chat-header h1 { margin: 0; font-size: 16px; }
+.chat-header p { margin: 3px 0 0; color: #8696a0; font-size: 12px; }
+.chat-header__search { display:grid; width:36px; height:36px; place-items:center; border:0; border-radius:7px; background:transparent; color:#8696a0; cursor:pointer; }.chat-header__search:hover { background:#202c33; color:#e9edef; }
+.chat-header__block { display:grid; width:36px; height:36px; place-items:center; border:0; border-radius:7px; background:transparent; color:#ff9b87; cursor:pointer; }.chat-header__block:hover { background:#3c2528; color:#ffb4a7; }
+.chat-header__block--active { background:#203a35; color:#72e0c5; }.chat-header__block--active:hover { background:#285148; color:#a7f1dc; }
+.chat-header__group-info { margin-left:auto; border:0; border-radius:8px; background:#202c33; padding:8px 10px; color:#e9edef; cursor:pointer; font:inherit; font-size:12px; font-weight:700; }
+.chat-header__catch-up { display:inline-flex; align-items:center; gap:5px; border:0; border-radius:8px; background:#dff8ef; padding:8px 10px; color:#0b8a6b; cursor:pointer; font:inherit; font-size:12px; font-weight:700; }
+.chat-header__memory { display:inline-flex; align-items:center; gap:5px; border:0; border-radius:8px; background:#e8f2fa; padding:8px 10px; color:#226b9a; cursor:pointer; font:inherit; font-size:12px; font-weight:700; }
+.chat-header:not(.chat-header--group) .chat-header__memory { margin-left:auto; }
+
+@media (max-width: 700px) {
+  .chat-header { gap: 8px; padding: 10px 12px; }
+  .chat-header__picture { width: 34px; height: 34px; }
+  .chat-header h1 { max-width: 92px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chat-header__memory { padding: 7px; font-size: 0; }
+  .chat-header__memory svg { width: 18px; height: 18px; }
+}

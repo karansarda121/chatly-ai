@@ -1,0 +1,22 @@
+.message-list {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  align-content: start;
+  gap: 8px;
+  overflow-y: auto;
+  background: #0b141a;
+  padding: 20px;
+}
+
+.message-list__status {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  place-items: center;
+  color: #8696a0;
+  text-align: center;
+}
+
+.message-list__history-sentinel { height: 1px; }
+.message-list__history-status { margin: 0; color: #8696a0; font-size: 12px; text-align: center; }

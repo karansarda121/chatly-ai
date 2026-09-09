@@ -1,0 +1,24 @@
+﻿.message-bubble {
+  position:relative;
+  width: fit-content;
+  max-width: min(78%, 540px);
+  justify-self: start;
+  border-radius: 10px;
+  background: #202c33;
+  padding: 8px 10px;
+  color: #e9edef;
+}
+
+.message-bubble--mine {
+  justify-self: end;
+  background: #005c4b;
+}
+.message-bubble__deleted { color:#b8c7c1; font-style:italic; }
+.message-bubble__reply { margin-bottom:7px; border-left:3px solid #00a884; background:rgb(0 0 0 / 12%); padding:5px 7px; }.message-bubble__reply strong,.message-bubble__reply span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.message-bubble__reply strong { color:#00a884; font-size:11px; }.message-bubble__reply span { margin-top:2px; color:#b8c7c1; font-size:11px; }
+.message-bubble__reactions { display:flex; flex-wrap:wrap; gap:4px; margin-top:7px; }.message-bubble__reactions span { border-radius:10px; background:rgb(0 0 0 / 18%); padding:2px 5px; font-size:11px; }
+
+.message-bubble strong { display: block; margin-bottom: 3px; color: #00a884; font-size: 12px; }
+.message-bubble p { margin: 0; overflow-wrap: anywhere; line-height: 1.45; }
+.message-bubble time { display:flex; align-items:center; justify-content:end; gap:3px; margin-top:4px; color:#b8c7c1; font-size:10px; text-align:right; }.message-bubble__read { color:#53bdeb; }
+.message-bubble time em { font-style:normal; }.message-bubble__edit { display:grid; gap:7px; }.message-bubble__edit textarea { box-sizing:border-box; width:100%; min-width:220px; min-height:70px; resize:vertical; border:1px solid #00a884; border-radius:7px; outline:0; background:#111b21; padding:7px; color:#e9edef; font:inherit; }.message-bubble__edit span { display:flex; justify-content:flex-end; gap:6px; }.message-bubble__edit button { border:0; border-radius:6px; background:#2a3942; padding:5px 8px; color:#e9edef; font:inherit; font-size:12px; cursor:pointer; }.message-bubble__edit button[type="submit"] { background:#00a884; color:#0b141a; }
+.message-bubble__forwarded{pointer-events:none;display:inline-flex;align-items:center;gap:4px;margin:0 0 7px;color:#728594;font-size:11px;font-style:italic;letter-spacing:.01em}.message-bubble--mine .message-bubble__forwarded{color:#4e796f}.message-bubble__forwarded svg{flex:0 0 auto;opacity:.82}.message-bubble__pinned{display:inline-flex;align-items:center;gap:4px;margin:0 0 6px;color:#748596;font-size:10px;font-weight:700}.message-bubble--mine .message-bubble__pinned{color:#438172}

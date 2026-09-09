@@ -1,0 +1,18 @@
+.conversation-memory-panel__daily-summary {
+  display: grid;
+  gap: 3px;
+  border-radius: 8px;
+  background: #f4f8fa;
+  padding: 8px;
+}
+
+.conversation-memory-panel__daily-summary strong {
+  color: #226b9a;
+  font-size: 11px;
+}
+
+.conversation-memory-panel__daily-summary span {
+  color: #627484;
+  font-size: 12px;
+  line-height: 1.45;
+}

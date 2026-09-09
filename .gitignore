@@ -1,0 +1,42 @@
+# Dependencies
+**/node_modules/
+
+# Environment files and local secrets
+**/.env
+**/.env.*
+!**/.env.example
+*.local
+
+# Build output, test coverage, and caches
+**/dist/
+**/build/
+**/coverage/
+**/.vite/
+**/.cache/
+**/.eslintcache
+
+# Logs and temporary files
+*.log
+*.log.*
+*.tmp
+*.temp
+*.bak
+*.orig
+*.swp
+*.swo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private development reports and local scratch artifacts
+chat-app/docs/
+*.pdf
+*.cache

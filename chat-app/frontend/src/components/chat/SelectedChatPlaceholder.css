@@ -1,0 +1,18 @@
+.selected-chat-placeholder {
+  display: grid;
+  max-width: 460px;
+  place-items: center;
+  text-align: center;
+  color: #8696a0;
+}
+
+.selected-chat-placeholder svg { color: #00a884; }
+
+.selected-chat-placeholder h1 {
+  margin: 16px 0 8px;
+  color: #e9edef;
+  font-size: 28px;
+}
+
+.selected-chat-placeholder p { margin: 0; line-height: 1.6; }
+.selected-chat-placeholder__catch-up { position:fixed; top:20px; right:78px; display:inline-flex; align-items:center; gap:5px; border:0; border-radius:8px; background:#dff8ef; padding:8px 10px; color:#0b8a6b; cursor:pointer; font:inherit; font-size:12px; font-weight:700; }.selected-chat-placeholder__catch-up:hover { background:#c9f1e3; }

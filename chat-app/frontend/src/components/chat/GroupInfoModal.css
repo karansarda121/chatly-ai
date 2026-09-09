@@ -1,0 +1,195 @@
+.group-info-modal,
+.delete-group-dialog {
+  position: fixed;
+  z-index: 12;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(21 45 69 / 28%);
+}
+
+.delete-group-dialog { z-index: 13; background: rgb(21 45 69 / 45%); }
+
+.group-info-modal__dialog,
+.delete-group-dialog__card {
+  display: grid;
+  width: min(100%, 500px);
+  max-height: 84vh;
+  gap: 14px;
+  overflow: auto;
+  border: 1px solid #dbe4eb;
+  border-radius: 20px;
+  background: #fff;
+  padding: 22px;
+  color: #172b3a;
+  box-shadow: 0 24px 70px rgb(35 62 86 / 18%);
+}
+
+.group-info-modal__hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #edf1f4;
+}
+
+.group-info-modal__icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 15px;
+  background: #dff8ef;
+  color: #0b8a6b;
+}
+
+.group-info-modal__hero p,
+.group-info-modal__hero h2,
+.group-info-modal__hero small,
+.group-info-modal__label,
+.group-info-modal__description,
+.group-info-modal__members p,
+.group-info-modal__error,
+.delete-group-dialog__card h3,
+.delete-group-dialog__card p {
+  margin: 0;
+}
+
+.group-info-modal__hero p,
+.group-info-modal__hero small,
+.group-info-modal__label,
+.group-info-modal__description,
+.delete-group-dialog__card p {
+  color: #627484;
+}
+
+.group-info-modal__hero p {
+  color: #0b8a6b;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.group-info-modal__hero h2 { margin: 2px 0; font-size: 1.18rem; }
+.group-info-modal__hero small { font-size: 0.82rem; }
+.group-info-modal__close { margin-left: auto; }
+
+.group-info-modal__label,
+.group-settings-form label,
+.delete-group-dialog__card label {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.group-info-modal__description {
+  border-radius: 12px;
+  background: #f4f8fa;
+  padding: 11px 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.group-info-modal__members,
+.group-info-modal__results {
+  display: grid;
+  gap: 7px;
+  max-height: 190px;
+  overflow: auto;
+}
+
+.group-info-modal__member,
+.group-info-modal__results button {
+  border: 1px solid #e5edf2;
+  border-radius: 12px;
+  background: #f8fbfc;
+  padding: 10px;
+}
+
+.group-info-modal__member { display: grid; gap: 7px; }
+
+.group-info-modal__member p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.group-info-modal__members span {
+  border-radius: 99px;
+  background: #e5f7f1;
+  padding: 3px 7px;
+  color: #0b8a6b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.group-info-modal__member-actions,
+.group-settings-form__actions,
+.delete-group-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.group-info-modal__member-actions button { padding: 6px 8px; font-size: 0.78rem; }
+
+.group-info-modal input,
+.group-settings-form input,
+.group-settings-form textarea,
+.delete-group-dialog__card input {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #cdd9e2;
+  border-radius: 10px;
+  outline: 0;
+  background: #fff;
+  padding: 10px;
+  color: #172b3a;
+  font: inherit;
+}
+
+.group-info-modal input:focus,
+.group-settings-form input:focus,
+.group-settings-form textarea:focus,
+.delete-group-dialog__card input:focus { border-color: #0b8a6b; box-shadow: 0 0 0 3px rgb(11 138 107 / 12%); }
+
+.group-info-modal button,
+.group-settings-form button,
+.delete-group-dialog__card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 9px;
+  background: #edf3f6;
+  padding: 8px 10px;
+  color: #385063;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.group-info-modal__edit { justify-self: start; color: #0b8a6b; }
+.group-info-modal__results button { width: 100%; justify-content: flex-start; text-align: left; }
+.group-info-modal__delete { justify-self: start; background: #fff0ef; color: #c23b31; }
+
+.group-settings-form { display: grid; gap: 8px; }
+.group-settings-form textarea { resize: vertical; }
+.group-settings-form__actions,
+.delete-group-dialog__actions { justify-content: flex-end; margin-top: 3px; }
+.group-settings-form__actions button[type="submit"] { background: #0b8a6b; color: #fff; }
+
+.delete-group-dialog__card { width: min(100%, 420px); }
+.delete-group-dialog__card p { line-height: 1.5; }
+.delete-group-dialog__actions button[type="submit"] { background: #c23b31; color: #fff; }
+
+.group-info-modal button:disabled,
+.group-settings-form button:disabled,
+.delete-group-dialog__card button:disabled { cursor: not-allowed; opacity: 0.55; }
+.group-info-modal__error { color: #c23b31; font-size: 0.85rem; }
