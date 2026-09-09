@@ -70,9 +70,6 @@ Open the Vite URL shown in the terminal, normally `http://localhost:5173`.
 
 ## Environment variables
 
-Do **not** push your real `.env` files. They contain private credentials and are ignored by Git.
-
-The files ending in `.env.example` are safe to push: they contain only variable names and fake placeholder values. Each developer copies an example file to `.env`, then enters their own credentials locally:
 
 ```bash
 cd chat-app/backend
@@ -123,16 +120,3 @@ cd chat-app/backend
 npm start
 ```
 
-## Production checklist
-
-- Set production values for frontend API URL and backend client origin.
-- Use a managed MongoDB database and a strong random JWT secret.
-- Configure SMTP with a verified sender.
-- Configure ImageKit and Gemini environment variables.
-- Serve the frontend over HTTPS and deploy the backend behind HTTPS.
-- Run `npm run lint` and `npm run build` before deployment.
-- Confirm `.env`, `node_modules`, build output, and local documents remain ignored by Git.
-
-## License
-
-No license has been selected yet. Add one before publishing if you want others to reuse the code.
