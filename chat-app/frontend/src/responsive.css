@@ -1,0 +1,67 @@
+/* Shared responsive layer: keeps every screen usable from small phones to desktop. */
+*, *::before, *::after { box-sizing: border-box; }
+img, video, canvas, svg { max-width: 100%; }
+input, textarea, select, button { max-width: 100%; }
+
+.landing-page, .login-page, .register-page, .verify-email-page, .profile-page { width: 100%; min-width: 0; }
+
+.user-directory-modal__dialog, .group-create-modal__dialog, .group-info-modal__dialog,
+.forward-message-modal__dialog, .saved-messages-modal__dialog, .pinned-messages-modal__dialog,
+.message-ai-result-modal__dialog, .conversation-memory-panel, .ai-panels__dialog,
+.global-catch-up__dialog {
+  max-height: min(760px, calc(100dvh - 32px));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.message-bubble, .message-bubble__content, .message-bubble__reply, .media-content,
+.chat-list-item, .chat-list-item__details, .user-search__details, .profile-summary,
+.profile-page__card { min-width: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 900px) {
+  .profile-page, .profile-page__content, .profile-page__grid, .profile-page__cards { min-width: 0; }
+  .profile-page__grid, .profile-page__cards { grid-template-columns: minmax(0, 1fr); }
+  .chat-header, .message-composer { padding-inline: 16px; }
+  .message-list { padding-inline: 18px; }
+}
+
+@media (max-width: 700px) {
+  body { overflow-x: hidden; }
+  .dashboard-placeholder { width: 100%; height: 100dvh; min-height: 100dvh; }
+  .dashboard-placeholder__content, .chat-window, .message-list, .chat-list { min-width: 0; }
+  .app-sidebar { width: 72px !important; flex: 0 0 72px; }
+  .app-sidebar__top { padding-inline: 10px; }
+  .chat-header { min-height: 62px; gap: 8px; padding: 10px 12px; }
+  .chat-header h1 { max-width: 38vw; }
+  .chat-header__actions, .chat-header__controls { gap: 6px; }
+  .message-list { padding: 14px 12px 92px; gap: 8px; }
+  .message-bubble { max-width: min(86%, 420px); }
+  .message-composer { gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); }
+  .message-composer__input, .message-composer input, .message-composer textarea { min-width: 0; }
+  .message-composer__send, .message-composer__add, .message-composer__translate { flex: 0 0 auto; }
+  .global-catch-up-fab { right: 14px; bottom: calc(78px + env(safe-area-inset-bottom)); }
+  .user-directory-modal, .group-create-modal, .group-info-modal, .forward-message-modal,
+  .saved-messages-modal, .pinned-messages-modal, .message-ai-result-modal, .ai-panels,
+  .global-catch-up { padding: 16px; align-items: end; }
+  .user-directory-modal__dialog, .group-create-modal__dialog, .group-info-modal__dialog,
+  .forward-message-modal__dialog, .saved-messages-modal__dialog, .pinned-messages-modal__dialog,
+  .message-ai-result-modal__dialog, .conversation-memory-panel, .ai-panels__dialog,
+  .global-catch-up__dialog { width: min(100%, 560px); max-width: 100%; max-height: calc(100dvh - 24px); border-radius: 20px; }
+  .user-search__input-wrap, .message-search form, .message-composer__translate-menu,
+  .media-picker__menu { width: min(100%, 340px); max-width: calc(100vw - 32px); }
+}
+
+@media (max-width: 480px) {
+  .app-sidebar { width: 64px !important; flex-basis: 64px; }
+  .chat-header { padding-inline: 9px; }
+  .chat-header h1 { max-width: 30vw; font-size: .92rem; }
+  .chat-header p, .chat-list-item__details small, .app-sidebar__profile small { display: none; }
+  .message-list { padding: 12px 9px 88px; }
+  .message-bubble { max-width: 90%; font-size: .94rem; }
+  .message-composer { padding-inline: 9px; }
+  .message-composer button { min-width: 42px; min-height: 42px; }
+  .user-directory-modal, .group-create-modal, .group-info-modal, .forward-message-modal,
+  .saved-messages-modal, .pinned-messages-modal, .message-ai-result-modal, .ai-panels,
+  .global-catch-up { padding: 10px; }
+  .profile-page, .login-page, .register-page, .verify-email-page { padding-inline: 16px; }
+}

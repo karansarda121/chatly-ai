@@ -40,3 +40,17 @@ Desktop.ini
 chat-app/docs/
 *.pdf
 *.cache
+# Deployment-provider local state and additional build caches
+**/.vercel/
+**/.netlify/
+**/.turbo/
+**/.parcel-cache/
+*.tsbuildinfo
+*.pid
+
+# Certificate and private-key exports
+*.pem
+*.key
+*.p12
+*.pfx
+service-account*.json

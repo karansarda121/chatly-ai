@@ -1,4 +1,9 @@
-﻿import nodemailer from 'nodemailer';
+import dns from 'node:dns';
+import nodemailer from 'nodemailer';
+
+// Some cloud hosts expose no usable IPv6 route. Prefer IPv4 for SMTP hostnames
+// so email delivery does not fail before reaching the provider.
+dns.setDefaultResultOrder('ipv4first');
 
 function requireEmailConfiguration() {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {

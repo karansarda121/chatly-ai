@@ -1,4 +1,4 @@
-﻿.dashboard-placeholder {
+.dashboard-placeholder {
   display: flex;
   height: 100dvh;
   min-height: 0;
@@ -223,3 +223,46 @@ html[data-theme='dark'] .dashboard-placeholder .message-bubble__forwarded{backgr
 .dashboard-placeholder .message-bubble:has(.message-delete-menu--open){z-index:95}.dashboard-placeholder .message-delete-menu__options{z-index:110!important}@media(min-width:701px){.dashboard-placeholder .message-list{padding-bottom:102px}}.global-catch-up-fab{position:fixed;z-index:40;right:28px;bottom:94px;display:grid;width:56px;height:56px;place-items:center;border:1px solid rgb(255 255 255 / 58%);border-radius:50%;background:conic-gradient(from 210deg,#0b8a6b,#28c89c,#48a9e6,#18b78c,#0b8a6b);color:#fff;box-shadow:0 10px 25px rgb(15 159 121 / 31%),inset 0 1px 1px rgb(255 255 255 / 45%);cursor:pointer;isolation:isolate;transition:transform .2s ease,box-shadow .2s ease}.global-catch-up-fab::before{position:absolute;z-index:-1;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgb(43 202 159 / 29%),transparent 67%);content:"";animation:catch-up-glow 2.4s ease-in-out infinite;pointer-events:none}.global-catch-up-fab:hover{transform:translateY(-3px) scale(1.06) rotate(6deg);box-shadow:0 16px 34px rgb(15 159 121 / 38%),inset 0 1px 1px rgb(255 255 255 / 55%)}.global-catch-up-fab:active{transform:translateY(-1px) scale(.96)}.global-catch-up-fab:focus-visible{outline:3px solid rgb(15 159 121 / 35%);outline-offset:4px}@keyframes catch-up-glow{50%{opacity:.45;transform:scale(1.16)}}@media(max-width:700px){.global-catch-up-fab{right:15px;bottom:84px;width:52px;height:52px}.dashboard-placeholder .message-list{padding-bottom:86px!important}}
 /* Dark workspace contrast: override the light dashboard palette after all shared rules. */
 html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand strong{color:#eef7fb!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand b{color:#62e4be!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile strong{color:#eef7fb!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__profile small,html[data-theme='dark'] .dashboard-placeholder .chat-list h2,html[data-theme='dark'] .dashboard-placeholder .chat-list>p{color:#9fb2c2!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder h1{color:#edf7fb!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder,html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder p{color:#b4c5d2!important}html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder svg{color:#3ee0b4!important}html[data-theme='dark'] .dashboard-placeholder .chat-header__catch-up,html[data-theme='dark'] .dashboard-placeholder .selected-chat-placeholder__catch-up{border-color:#2e7666!important;background:linear-gradient(135deg,#193d38,#174b42)!important;color:#8bf0cd!important;box-shadow:0 7px 17px rgb(0 0 0 / 20%)!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__more,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__new-chat{background:#1d2d3a!important;color:#75e0c0!important}html[data-theme='dark'] .dashboard-placeholder .app-sidebar__more:hover,html[data-theme='dark'] .dashboard-placeholder .app-sidebar__new-chat:hover{background:#264453!important;color:#fff!important}
+
+/* Keep the mobile dashboard focused on the conversation, not the desktop sidebar. */
+@media (max-width: 700px) {
+  .dashboard-placeholder .app-sidebar {
+    width: 60px !important;
+    flex: 0 0 60px;
+  }
+
+  .dashboard-placeholder .app-sidebar__top {
+    padding: 10px 7px;
+    gap: 10px;
+  }
+
+  .dashboard-placeholder .app-sidebar__actions {
+    gap: 2px;
+  }
+
+  .dashboard-placeholder .app-sidebar__brand > span,
+  .dashboard-placeholder .app-sidebar__new-chat,
+  .dashboard-placeholder .app-sidebar__more {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dashboard-placeholder .app-sidebar__profile {
+    margin-inline: 5px;
+  }
+
+  .dashboard-placeholder .app-sidebar__picture {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-placeholder .app-sidebar {
+    width: 54px !important;
+    flex-basis: 54px;
+  }
+
+  .dashboard-placeholder .app-sidebar__top { padding-inline: 5px; }
+  .dashboard-placeholder .app-sidebar__profile { margin-inline: 3px; }
+}

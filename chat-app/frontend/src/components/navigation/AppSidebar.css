@@ -144,3 +144,19 @@
   .app-sidebar__profile { justify-content: center; margin: 14px 8px; padding: 8px; }
   .app-sidebar__menu { top: 0; right: auto; left: 42px; }
 }
+
+/* On a compact rail, actions must stack instead of overflowing sideways. */
+@media (max-width: 700px) {
+  .app-sidebar__actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 34px;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-sidebar__actions {
+    gap: 6px;
+    width: 32px;
+  }
+}

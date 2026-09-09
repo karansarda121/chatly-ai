@@ -1,4 +1,6 @@
-﻿.signed-in-page {
+@import './responsive.css';
+
+.signed-in-page {
   display: grid;
   min-height: 100vh;
   place-items: center;
