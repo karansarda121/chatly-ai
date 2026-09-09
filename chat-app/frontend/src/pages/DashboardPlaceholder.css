@@ -266,3 +266,22 @@ html[data-theme='dark'] .dashboard-placeholder .app-sidebar__brand,html[data-the
   .dashboard-placeholder .app-sidebar__top { padding-inline: 5px; }
   .dashboard-placeholder .app-sidebar__profile { margin-inline: 3px; }
 }
+/* Final mobile sidebar layout: one touch control per row inside the compact rail. */
+@media (max-width: 700px) {
+  .dashboard-placeholder .app-sidebar__top {
+    align-items: center;
+  }
+
+  .dashboard-placeholder .app-sidebar__actions {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 8px !important;
+    width: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-placeholder .app-sidebar__actions {
+    gap: 6px !important;
+  }
+}
