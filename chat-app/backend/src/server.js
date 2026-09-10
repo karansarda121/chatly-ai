@@ -18,6 +18,10 @@ import { configureSocketServer } from "./socket/socketServer.js";
 
 const app = express();
 
+// Render forwards requests through one trusted proxy. This lets rate limiting
+// use the real client address from X-Forwarded-For without trusting every proxy.
+app.set("trust proxy", 1);
+
 // Allow the frontend (a different origin/port in dev) to call this API.
 app.use(
   cors({
