@@ -38,3 +38,10 @@
   .chat-header__memory { padding: 7px; font-size: 0; }
   .chat-header__memory svg { width: 18px; height: 18px; }
 }
+
+.chat-header__mobile-menu { display: none; }
+@media (max-width: 700px) {
+  .chat-header__details { min-width: 0; flex: 1; }
+  .chat-header:not(.chat-header--group) .chat-header__memory { margin-left: 0; }
+  .chat-header__mobile-menu { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border: 0; border-radius: 8px; background: transparent; color: #00a884; cursor: pointer; }
+}

@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Menu, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 import ChatList from '../components/chat/ChatList.jsx';
@@ -37,6 +37,7 @@ function DashboardPlaceholder() {
   const [isGroupCreateOpen, setIsGroupCreateOpen] = useState(false);
   const [isGlobalCatchUpOpen, setIsGlobalCatchUpOpen] = useState(false);
   const [isSavedMessagesOpen, setIsSavedMessagesOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isCreatingGroup, setIsCreatingGroup] = useState(false);
   const [error, setError] = useState('');
 
@@ -296,14 +297,17 @@ function DashboardPlaceholder() {
 
   return (
     <main className={`dashboard-placeholder${isGlobalCatchUpOpen ? ' dashboard-placeholder--catch-up-open' : ''}`}>
-      <AppSidebar onOpenGroupCreate={() => { setIsGroupCreateOpen(true); loadUsers(); }} onOpenSavedMessages={() => setIsSavedMessagesOpen(true)} onOpenUserDirectory={openUserDirectory}>
+      <AppSidebar isMobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} onOpenGroupCreate={() => { setIsGroupCreateOpen(true); loadUsers(); }} onOpenSavedMessages={() => setIsSavedMessagesOpen(true)} onOpenUserDirectory={openUserDirectory}>
         {error && <p className="dashboard-placeholder__error">{error}</p>}
-        <ChatList activeChatId={activeChat?._id} chats={chats} currentUserId={user._id} isLoading={isLoadingChats} onSelect={selectChat} />
+        <ChatList activeChatId={activeChat?._id} chats={chats} currentUserId={user._id} isLoading={isLoadingChats} onSelect={(chat) => { selectChat(chat); setIsMobileSidebarOpen(false); }} />
       </AppSidebar>
+      {isMobileSidebarOpen && <button type="button" className="dashboard-placeholder__mobile-sidebar-backdrop" onClick={() => setIsMobileSidebarOpen(false)} aria-label="Close chats menu" />}
 
       <section className="dashboard-placeholder__content">
-        {activeChat ? <ChatWindow key={`${activeChat._id}-${activeChat.openedFromCatchUp ? 'catch-up' : 'manual'}`} chat={activeChat} currentUserId={user._id} openedFromCatchUp={Boolean(activeChat.openedFromCatchUp)} onChatDeleted={removeChat} onChatUpdated={updateChat} onMessageSent={recordSentMessage} /> : <SelectedChatPlaceholder chat={activeChat} currentUserId={user._id} onOpenCatchUp={() => setIsGlobalCatchUpOpen(true)} />}
+        {activeChat ? <ChatWindow key={`${activeChat._id}-${activeChat.openedFromCatchUp ? 'catch-up' : 'manual'}`} chat={activeChat} currentUserId={user._id} openedFromCatchUp={Boolean(activeChat.openedFromCatchUp)} onChatDeleted={removeChat} onChatUpdated={updateChat} onMessageSent={recordSentMessage} onOpenMobileMenu={() => setIsMobileSidebarOpen(true)} /> : <SelectedChatPlaceholder chat={activeChat} currentUserId={user._id} onOpenCatchUp={() => setIsGlobalCatchUpOpen(true)} />}
       </section>
+
+      {!activeChat && <button type="button" className="dashboard-placeholder__mobile-sidebar-toggle" onClick={() => setIsMobileSidebarOpen(true)} aria-label="Open chats and account menu"><Menu size={20} /></button>}
 
       <UserDirectoryModal isOpen={isUserDirectoryOpen} onClose={() => setIsUserDirectoryOpen(false)}>
         <UserSearch hasMoreUsers={Boolean(nextUserCursor)} isCreatingChat={isCreatingChat} isLoadingMoreUsers={isLoadingMoreUsers} isLoadingUsers={isLoadingUsers} isSearching={isSearching} onAddContact={handleAddContact} onLoadMore={loadMoreUsers} onReset={loadUsers} onSearch={findUsers} onStartChat={handleStartChat} results={searchResults} />

@@ -23,7 +23,7 @@ function getErrorMessage(error, fallback) {
   return error.response?.data?.message || fallback;
 }
 
-function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDeleted, onChatUpdated, onMessageSent }) {
+function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDeleted, onChatUpdated, onMessageSent, onOpenMobileMenu = () => {} }) {
   const [messages, setMessages] = useState([]);
   const [pinnedMessages, setPinnedMessages] = useState([]);
   const [isPinnedMessagesOpen, setIsPinnedMessagesOpen] = useState(false);
@@ -40,6 +40,7 @@ function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDele
   const [smartReplySuggestions, setSmartReplySuggestions] = useState([]);
   const [isLoadingSmartReplies, setIsLoadingSmartReplies] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [typingUserId, setTypingUserId] = useState('');
   const [presence, setPresence] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -73,6 +74,12 @@ function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDele
   const mediaUploadRequestId = useRef(0);
   const otherMember = chat.members.find((member) => String(member.user?._id) !== String(currentUserId))?.user;
   const typingMember = chat.members.find((member) => String(member.user?._id) === String(typingUserId))?.user;
+
+  useEffect(() => {
+    if (!notice) return undefined;
+    const timer = window.setTimeout(() => setNotice(''), 4000);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
 
   useEffect(() => {
     async function loadMessages() {
@@ -319,11 +326,11 @@ function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDele
       if (isOtherUserBlocked) {
         await unblockUser(userToBlock._id);
         setIsOtherUserBlocked(false);
-        setError(`${displayName} is unblocked.`);
+        setNotice(`${displayName} is unblocked.`);
       } else {
         await blockUser(userToBlock._id);
         setIsOtherUserBlocked(true);
-        setError(`${displayName} is blocked. Manage blocked users from Profile Settings.`);
+        setNotice(`${displayName} is blocked.`);
       }
     } catch (requestError) {
       setError(getErrorMessage(requestError, `Could not ${action.toLowerCase()} this user.`));
@@ -570,7 +577,7 @@ function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDele
 
   return (
     <section className="chat-window">
-      <ChatHeader chat={chat} currentUserId={currentUserId} isOtherUserBlocked={isOtherUserBlocked} onToggleBlockUser={handleToggleBlockUser} onOpenAiAssistant={() => setIsConversationMemoryOpen(true)} onOpenGroupInfo={() => setIsGroupInfoOpen(true)} onOpenSearch={() => setIsSearchOpen(true)} presence={presence} />
+      <ChatHeader chat={chat} currentUserId={currentUserId} isOtherUserBlocked={isOtherUserBlocked} onOpenMobileMenu={onOpenMobileMenu} onToggleBlockUser={handleToggleBlockUser} onOpenAiAssistant={() => setIsConversationMemoryOpen(true)} onOpenGroupInfo={() => setIsGroupInfoOpen(true)} onOpenSearch={() => setIsSearchOpen(true)} presence={presence} />
       {pinnedMessages.length > 0 && <div className="pinned-messages-banner"><button type="button" onClick={() => setIsPinnedMessagesOpen(true)}><span><Pin size={15} />{pinnedMessages.length} pinned {pinnedMessages.length === 1 ? 'message' : 'messages'}</span><small>Open to view</small></button></div>}
       {isPinnedMessagesOpen && <PinnedMessagesModal messages={pinnedMessages} onClose={() => setIsPinnedMessagesOpen(false)} onSelect={(message) => { setIsPinnedMessagesOpen(false); jumpToMessage(message); }} onUnpin={(message) => handlePin(message._id)} />}
       {chat.type === 'group' && (
@@ -589,7 +596,8 @@ function ChatWindow({ chat, currentUserId, openedFromCatchUp = false, onChatDele
       <ActionItemsPanel error={actionItemsError} handledIds={handledInsightIds} isLoading={isFindingActionItems} isOpen={isActionItemsOpen} onClose={() => setIsActionItemsOpen(false)} onCreate={setWorkItemSuggestion} onGenerate={generateActionItems} onHandled={markInsightHandled} onReply={sendInsightReply} result={actionItemsResult} />
       {workItemSuggestion && <CreateWorkItemModal suggestion={workItemSuggestion} onClose={() => setWorkItemSuggestion(null)} onSave={saveWorkItem} />}
       {isSearchOpen && <MessageSearch isSearching={isSearchingMessages} onClose={() => setIsSearchOpen(false)} onSearch={handleSearch} onSelect={jumpToMessage} results={searchResults} />}
-      {error && <p className="chat-window__error">{error}</p>}
+      {notice && <p className="chat-window__notice" role="status">{notice}</p>}
+      {error && <p className="chat-window__error" role="alert">{error}</p>}
       <MessageList chatId={chat._id} currentUserId={currentUserId} deletingMessageId={deletingMessageId} editingMessageId={editingMessageId} hasMoreMessages={Boolean(nextMessageCursor)} initialUnreadMessageId={initialUnreadMessageId} isLoading={isLoading} isLoadingOlder={isLoadingOlder} messages={messages} onAiTool={openSelectedMessageTool} onCancelEdit={() => setEditingMessageId('')} onDelete={handleDelete} onEdit={handleEdit} onLoadOlder={loadOlderMessages} onPin={handlePin} onReact={handleReaction} onReply={handleReply} onSave={handleSave} onStartEdit={setEditingMessageId} />
       {typingMember && <p className="chat-window__typing"><span>{typingMember.displayName || typingMember.username}</span> is typing...</p>}
       <MessageComposer draftText={composerDraft} isSending={isSending} isUploadingMedia={isUploadingMedia} mediaUpload={mediaUpload} members={chat.members.map((member) => member.user).filter((member) => member && String(member._id) !== String(currentUserId))} onCancelMediaUpload={cancelMediaUpload} onCancelReply={cancelReply} onDismissMediaUpload={() => setMediaUpload(null)} onDismissSmartReplies={dismissSmartReplies} isLoadingSmartReplies={isLoadingSmartReplies} smartReplySuggestions={smartReplySuggestions} onDraftApplied={() => setComposerDraft('')} onMediaSelect={handleMediaSelect} onRetryMediaUpload={retryMediaUpload} onSend={handleSend} onTranslate={translateComposerDraft} onTyping={startTyping} onTypingStop={stopTyping} replyTo={replyTo} />

@@ -1,4 +1,4 @@
-﻿import Chat from '../models/Chat.js';
+import Chat from '../models/Chat.js';
 import Message from '../models/Message.js';
 import User from '../models/User.js';
 import { deleteImageKitFile } from '../config/imagekit.js';
@@ -197,6 +197,9 @@ export async function forwardMessage(req, res, next) {
 
     const source = await Message.findOne({ _id: req.params.messageId, deletedFor: { $ne: req.user._id }, isDeletedForEveryone: false });
     if (!source || !await findMemberChat(source.chat, req.user._id)) return res.status(404).json({ message: 'Original message not found.' });
+    if (targetChatIds.some((chatId) => String(chatId) === String(source.chat))) {
+      return res.status(400).json({ message: 'Choose a different chat or group to forward this message.' });
+    }
 
     const targets = await Chat.find({ _id: { $in: targetChatIds }, 'members.user': req.user._id });
     if (targets.length !== targetChatIds.length) return res.status(403).json({ message: 'You can forward only to chats you belong to.' });

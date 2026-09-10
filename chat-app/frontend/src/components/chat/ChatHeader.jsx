@@ -1,9 +1,9 @@
-import { Ban, Search, Sparkles, Unlock, UsersRound } from 'lucide-react';
+import { Ban, Menu, Search, Sparkles, Unlock, UsersRound } from 'lucide-react';
 
 import UserAvatar from '../common/UserAvatar.jsx';
 import './ChatHeader.css';
 
-function ChatHeader({ chat, currentUserId, isOtherUserBlocked, onToggleBlockUser, onOpenAiAssistant, onOpenGroupInfo, onOpenSearch, presence }) {
+function ChatHeader({ chat, currentUserId, isOtherUserBlocked, onOpenAiAssistant, onOpenGroupInfo, onOpenMobileMenu, onOpenSearch, onToggleBlockUser, presence }) {
   const otherMember = chat.members.find(
     (member) => member.user?._id !== currentUserId,
   )?.user;
@@ -14,17 +14,18 @@ function ChatHeader({ chat, currentUserId, isOtherUserBlocked, onToggleBlockUser
   const status = isGroup
     ? `${chat.members.length} members`
     : isOnline
-    ? 'Online'
-    : lastSeen
-      ? `Last seen ${new Date(lastSeen).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}`
-      : 'Offline';
+      ? 'Online'
+      : lastSeen
+        ? `Last seen ${new Date(lastSeen).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}`
+        : 'Offline';
 
   return (
     <header className={`chat-header ${isGroup ? 'chat-header--group' : ''}`}>
+      <button type="button" className="chat-header__mobile-menu" onClick={onOpenMobileMenu} aria-label="Open chats and account menu"><Menu size={20} /></button>
       <span className="chat-header__picture">
         {isGroup ? <UsersRound size={22} /> : <UserAvatar user={otherMember} />}
       </span>
-      <span>
+      <span className="chat-header__details">
         <h1>{displayName}</h1>
         <p>{status}</p>
       </span>

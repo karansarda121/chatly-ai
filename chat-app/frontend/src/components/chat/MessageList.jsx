@@ -1,4 +1,4 @@
-﻿import MessageBubble from './MessageBubble.jsx';
+import MessageBubble from './MessageBubble.jsx';
 import { useCallback, useLayoutEffect, useRef } from 'react';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver.js';
 import './MessageList.css';
@@ -72,7 +72,7 @@ function MessageList({ chatId, currentUserId, deletingMessageId, editingMessageI
     return () => cancelAnimationFrame(frameId);
   }, [chatId, initialUnreadMessageId, isLoading, messages.length]);
 
-  if (isLoading) return <div className="message-list__status">Loading messagesâ€¦</div>;
+  if (isLoading) return <div className="message-list__status">Loading messages...</div>;
   if (messages.length === 0) return <div className="message-list__status">No messages yet. Send the first one.</div>;
 
   return (

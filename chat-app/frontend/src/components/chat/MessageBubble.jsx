@@ -1,4 +1,4 @@
-﻿import { Check, CheckCheck, Forward, Pin } from 'lucide-react';
+import { Check, CheckCheck, Forward, Pin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import MediaContent from './MediaContent.jsx';
@@ -31,7 +31,7 @@ function MessageBubble({ currentUserId, isDeleting, isEditing, message, recentCo
 
   return (
     <article id={`message-${message._id}`} className={`message-bubble ${isMine ? 'message-bubble--mine' : ''}`}>
-      {!message.isDeletedForEveryone && <MessageDeleteMenu canEdit={isMine && message.type === 'text'} isDeleting={isDeleting} isMine={isMine} isPinned={Boolean(message.isPinned)} isSaved={Boolean(message.isSaved)} message={message} onAiTool={(mode) => onAiTool(mode, message, recentContext)} onDelete={onDelete} onEdit={onStartEdit} onForward={() => onForward(message)} onPin={() => onPin(message._id)} onReact={onReact} onSave={() => onSave(message._id)} onReply={onReply} />}
+      {!message.isDeletedForEveryone && <MessageDeleteMenu currentUserId={currentUserId} canEdit={isMine && message.type === 'text'} isDeleting={isDeleting} isMine={isMine} isPinned={Boolean(message.isPinned)} isSaved={Boolean(message.isSaved)} message={message} onAiTool={(mode) => onAiTool(mode, message, recentContext)} onDelete={onDelete} onEdit={onStartEdit} onForward={() => onForward(message)} onPin={() => onPin(message._id)} onReact={onReact} onSave={() => onSave(message._id)} onReply={onReply} />}
       {!isMine && <strong>{message.sender?.displayName || message.sender?.username}</strong>}
       {message.isPinned && <span className="message-bubble__pinned"><Pin size={11} />Pinned</span>}{message.forwardedFrom?.message && <span className="message-bubble__forwarded"><Forward size={12} />Forwarded</span>}
       {message.replyTo && <div className="message-bubble__reply"><strong>{message.replyTo.sender?.displayName || message.replyTo.sender?.username || 'Message'}</strong><span>{message.replyTo.isDeletedForEveryone ? 'This message was deleted' : message.replyTo.text || `Shared ${message.replyTo.type}`}</span></div>}

@@ -29,3 +29,6 @@
   font-size: 12px;
   font-style: italic;
 }
+
+.chat-window__notice { margin: 0; border-bottom: 1px solid #b9e7d9; background: #effbf6; padding: 9px 20px; color: #08765b; font-size: 13px; line-height: 1.4; }
+html[data-theme="dark"] .chat-window__notice { border-color: #276b59; background: #123a31; color: #8de0c7; }

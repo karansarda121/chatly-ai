@@ -5,7 +5,7 @@ import useClickOutside from '../../hooks/useClickOutside.js';
 import ForwardMessageModal from './ForwardMessageModal.jsx';
 import './MessageDeleteMenu.css';
 
-function MessageDeleteMenu({ canEdit, isDeleting, isMine, isPinned, isSaved, message, onAiTool, onDelete, onEdit, onForward, onPin, onReact, onReply, onSave }) {
+function MessageDeleteMenu({ canEdit, currentUserId, isDeleting, isMine, isPinned, isSaved, message, onAiTool, onDelete, onEdit, onForward, onPin, onReact, onReply, onSave }) {
   const [isOpen, setIsOpen] = useState(false);
   const [popupStyle, setPopupStyle] = useState({});
   const [isForwardOpen, setIsForwardOpen] = useState(false);
@@ -92,12 +92,12 @@ function MessageDeleteMenu({ canEdit, isDeleting, isMine, isPinned, isSaved, mes
           <button type="button" onClick={() => { onAiTool('explain_simply'); setIsOpen(false); }}><CircleHelp size={14} />Explain with AI</button>
           {canEdit && <button type="button" onClick={() => { onEdit(); setIsOpen(false); }}><Pencil size={14} />Edit message</button>}
           <button type="button" onClick={() => setIsReactionPickerOpen((open) => !open)}><SmilePlus size={14} />React</button>
-          {isReactionPickerOpen && <div className="message-delete-menu__reaction-picker" aria-label="Choose a reaction">{['👍', '❤️', '😂', '😮', '😢', '🙏'].map((emoji) => <button key={emoji} type="button" aria-label={`React ${emoji}`} onClick={() => { onReact(emoji); setIsReactionPickerOpen(false); setIsOpen(false); }}>{emoji}</button>)}</div>}
+          {isReactionPickerOpen && <div className="message-delete-menu__reaction-picker" aria-label="Choose a reaction">{['\u{1F44D}', '\u{2764}\u{FE0F}', '\u{1F602}', '\u{1F62E}', '\u{1F622}', '\u{1F64F}'].map((emoji) => <button key={emoji} type="button" aria-label={`React ${emoji}`} onClick={() => { onReact(emoji); setIsReactionPickerOpen(false); setIsOpen(false); }}>{emoji}</button>)}</div>}
           <button type="button" onClick={() => chooseScope('me')}><Trash2 size={14} />Delete for me</button>
           {isMine && <button type="button" onClick={() => chooseScope('everyone')}><Trash2 size={14} />Delete for everyone</button>}
         </div>
       )}
-      {isForwardOpen && <ForwardMessageModal message={message} onClose={() => setIsForwardOpen(false)} />}
+      {isForwardOpen && <ForwardMessageModal currentUserId={currentUserId} message={message} sourceChatId={message.chat} onClose={() => setIsForwardOpen(false)} />}
     </div>
   );
 }
