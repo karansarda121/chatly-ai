@@ -1,6 +1,6 @@
-﻿import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import api from '../services/api.js';
+import api, { SESSION_INVALID_EVENT } from '../services/api.js';
 import { disconnectSocket } from '../services/socket.js';
 import AuthContext from './authContext.js';
 
@@ -17,6 +17,15 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(getSavedUser);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    function handleInvalidSession() {
+      disconnectSocket();
+      setUser(null);
+    }
+
+    window.addEventListener(SESSION_INVALID_EVENT, handleInvalidSession);
+    return () => window.removeEventListener(SESSION_INVALID_EVENT, handleInvalidSession);
+  }, []);
   function saveSession({ token, user: authenticatedUser }) {
     localStorage.setItem('chatly_token', token);
     localStorage.setItem('chatly_user', JSON.stringify(authenticatedUser));
