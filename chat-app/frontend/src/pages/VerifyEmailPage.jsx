@@ -1,4 +1,4 @@
-﻿import { ArrowLeft, MailCheck, MessageCircle, RefreshCw, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, MailCheck, MessageCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,12 @@ function secondsRemaining(timestamp, now) {
   return Math.max(0, Math.ceil((new Date(timestamp).getTime() - now) / 1000));
 }
 
+function formatCountdown(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
 function VerifyEmailPage() {
   const { getEmailVerificationStatus, isSubmitting, resendVerificationOtp, verifyEmail } = useAuth();
   const location = useLocation();
@@ -19,8 +25,8 @@ function VerifyEmailPage() {
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [now, setNow] = useState(Date.now());
   const [otp, setOtp] = useState('');
-  const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
+  const [error, setError] = useState(() => location.state?.deliveryFailed ? (location.state?.message || 'We could not send the verification code. Try again.') : '');
+  const [notice, setNotice] = useState(() => location.state?.notice || '');
 
   async function loadStatus() {
     if (!email) return;
@@ -28,7 +34,6 @@ function VerifyEmailPage() {
     try {
       const result = await getEmailVerificationStatus(email);
       setStatus(result);
-      setNotice(result.message || '');
     } catch (requestError) {
       setError(requestError.response?.data?.message || 'Unable to check verification status.');
     } finally {
@@ -40,9 +45,8 @@ function VerifyEmailPage() {
   useEffect(() => { const timer = window.setInterval(() => setNow(Date.now()), 1000); return () => window.clearInterval(timer); }, []);
 
   const otpSecondsRemaining = secondsRemaining(status?.otpExpiresAt, now);
-  const resendSecondsRemaining = secondsRemaining(status?.resendAvailableAt, now);
   const hasActiveOtp = otpSecondsRemaining > 0;
-  const canResend = !isLoadingStatus && !isSubmitting && resendSecondsRemaining === 0;
+  const canResend = !isLoadingStatus && !isSubmitting && !hasActiveOtp;
 
   async function handleVerify(event) {
     event.preventDefault();
@@ -82,14 +86,14 @@ function VerifyEmailPage() {
     <h1>Verify your email</h1>
     <p className="verify-email-intro">{hasActiveOtp ? <>We sent a 6-digit code to <strong>{email}</strong>. Enter it below.</> : <>Your previous code has expired. Send a new code to <strong>{email}</strong>.</>}</p>
     {isLoadingStatus ? <p className="verify-email-status">Checking verification status...</p> : hasActiveOtp && <form className="verify-email-form" onSubmit={handleVerify}>
-      <label><span>Verification code <em>Expires in {Math.ceil(otpSecondsRemaining / 60)} min</em></span><input value={otp} onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" autoFocus maxLength="6" placeholder="000000" aria-label="6-digit verification code" /></label>
+      <label><span>Verification code</span><input value={otp} onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" autoFocus maxLength="6" placeholder="000000" aria-label="6-digit verification code" /></label>
       {error && <p className="verify-email-error" role="alert">{error}</p>}
       {notice && <p className="verify-email-notice" role="status">{notice}</p>}
       <button className="verify-email-submit" type="submit" disabled={isSubmitting || otp.length !== 6}>{isSubmitting ? 'Verifying...' : <><ShieldCheck size={18} /> Verify email</>}</button>
     </form>}
     {!isLoadingStatus && !hasActiveOtp && error && <p className="verify-email-error" role="alert">{error}</p>}
     {!isLoadingStatus && !hasActiveOtp && notice && <p className="verify-email-notice" role="status">{notice}</p>}
-    <p className="verify-email-resend">{hasActiveOtp ? 'Did not receive it?' : 'Ready for a new code?'} <button type="button" onClick={handleResend} disabled={!canResend}>{resendSecondsRemaining > 0 ? `Resend in ${resendSecondsRemaining}s` : <><RefreshCw size={14} /> {hasActiveOtp ? 'Resend code' : 'Send new code'}</>}</button></p>
+    {hasActiveOtp ? <p className="verify-email-resend">Your current code expires in <strong>{formatCountdown(otpSecondsRemaining)}</strong>. You can request a new code after it expires.</p> : <p className="verify-email-resend">Ready for a new code? <button type="button" onClick={handleResend} disabled={!canResend}><RefreshCw size={14} /> Send new code</button></p>}
     <p className="verify-email-login">Already verified? <Link to="/login">Go to login</Link></p>
   </section></main>;
 }

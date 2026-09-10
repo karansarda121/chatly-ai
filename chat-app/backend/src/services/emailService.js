@@ -1,9 +1,11 @@
-import dns from "node:dns";
-import net from "node:net";
-import nodemailer from "nodemailer";
+const BREVO_EMAIL_API_URL = "https://api.brevo.com/v3/smtp/email";
 
 function requireEmailConfiguration() {
-  const requiredVariables = ["SMTP_USER", "SMTP_PASS", "EMAIL_FROM"];
+  const requiredVariables = [
+    "BREVO_API_KEY",
+    "BREVO_SENDER_EMAIL",
+    "BREVO_SENDER_NAME",
+  ];
   const missingVariables = requiredVariables.filter((name) => !process.env[name]);
 
   if (missingVariables.length > 0) {
@@ -11,70 +13,56 @@ function requireEmailConfiguration() {
   }
 }
 
-async function resolveSmtpHost() {
-  const hostname = process.env.SMTP_HOST || "smtp.gmail.com";
-
-  if (net.isIP(hostname)) {
-    return { host: hostname, tls: undefined };
-  }
-
-  try {
-    // Render instances may not have an IPv6 route to Gmail. Resolve an IPv4
-    // address explicitly while retaining the hostname for TLS certificate checks.
-    const [ipv4Address] = await dns.promises.resolve4(hostname);
-    if (ipv4Address) {
-      return {
-        host: ipv4Address,
-        tls: { servername: hostname },
-      };
-    }
-  } catch {
-    // Fall back to the provider hostname for SMTP services without an IPv4 record.
-  }
-
-  return { host: hostname, tls: undefined };
-}
-
-async function createTransporter() {
+async function sendEmail({ to, subject, text, html }) {
   requireEmailConfiguration();
 
-  const smtpConnection = await resolveSmtpHost();
-
-  return nodemailer.createTransport({
-    host: smtpConnection.host,
-    port: Number(process.env.SMTP_PORT || 465),
-    secure: process.env.SMTP_SECURE !== "false",
-    ...(smtpConnection.tls ? { tls: smtpConnection.tls } : {}),
-    connectionTimeout: 15_000,
-    greetingTimeout: 15_000,
-    socketTimeout: 60_000,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+  const response = await fetch(BREVO_EMAIL_API_URL, {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+      "content-type": "application/json",
     },
+    body: JSON.stringify({
+      sender: {
+        name: process.env.BREVO_SENDER_NAME,
+        email: process.env.BREVO_SENDER_EMAIL,
+      },
+      to: [{ email: to }],
+      subject,
+      textContent: text,
+      htmlContent: html,
+    }),
   });
+
+  if (!response.ok) {
+    let providerCode = "unknown";
+    try {
+      const providerResponse = await response.json();
+      if (typeof providerResponse.code === "string") providerCode = providerResponse.code;
+    } catch {
+      // The provider did not return a JSON error body.
+    }
+
+    console.error(`Brevo email request failed: status ${response.status}, code ${providerCode}.`);
+    throw new Error("Email delivery failed. Check the Brevo sender and API key configuration.");
+  }
 }
 
 export async function sendVerificationOtpEmail({ email, otp }) {
-  const transporter = await createTransporter();
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
+  await sendEmail({
     to: email,
     subject: "Verify your Chatly AI email",
-    text: `Your Chatly AI verification code is ${otp}. It expires in 10 minutes.`,
-    html: `<p>Your Chatly AI verification code is:</p><h1>${otp}</h1><p>It expires in 10 minutes.</p>`,
+    text: `Your Chatly AI verification code is ${otp}. It expires in 10 minutes. Do not share this code with anyone.`,
+    html: `<div style="font-family:Arial,sans-serif;color:#193047"><h2>Verify your email</h2><p>Use this code to finish creating your Chatly AI account:</p><p style="font-size:28px;font-weight:700;letter-spacing:7px;color:#07966f">${otp}</p><p>This code expires in 10 minutes. Do not share it with anyone.</p></div>`,
   });
 }
 
 export async function sendPasswordResetOtpEmail({ email, otp }) {
-  const transporter = await createTransporter();
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
+  await sendEmail({
     to: email,
     subject: "Reset your Chatly AI password",
-    text: `Your Chatly AI password reset code is ${otp}. It expires in 10 minutes.`,
-    html: `<p>Your Chatly AI password reset code is:</p><h1>${otp}</h1><p>It expires in 10 minutes.</p>`,
+    text: `Your Chatly AI password reset code is ${otp}. It expires in 10 minutes. Do not share this code with anyone.`,
+    html: `<div style="font-family:Arial,sans-serif;color:#193047"><h2>Reset your password</h2><p>Use this code to reset your Chatly AI password:</p><p style="font-size:28px;font-weight:700;letter-spacing:7px;color:#07966f">${otp}</p><p>This code expires in 10 minutes. Do not share it with anyone.</p></div>`,
   });
 }

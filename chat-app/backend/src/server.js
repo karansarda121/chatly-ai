@@ -1,4 +1,4 @@
-import "dotenv/config";
+﻿import "dotenv/config";
 
 import http from "http";
 import express from "express";
@@ -46,7 +46,6 @@ app.use("/api/saved-messages", savedMessageRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/work-items", workItemRoutes);
-
 
 // Catch-all 404 for unmatched API routes.
 app.use((req, res) => {

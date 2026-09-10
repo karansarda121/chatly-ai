@@ -91,9 +91,9 @@ copy .env.example .env
 | `MAX_FILE_SIZE_MB` | Maximum upload size in MB |
 | `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint |
 | `IMAGEKIT_PRIVATE_KEY` | ImageKit private key |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | Your email provider SMTP settings |
-| `SMTP_USER`, `SMTP_PASS` | Your email address and SMTP app password |
-| `EMAIL_FROM` | Sender name and email address |
+| `BREVO_API_KEY` | Brevo transactional-email API key |
+| `BREVO_SENDER_EMAIL` | Verified sender email address in Brevo |
+| `BREVO_SENDER_NAME` | Friendly sender name, such as `Chatly AI` |
 | `GEMINI_API_KEY` | Gemini API key for product AI features |
 | `GEMINI_MODEL`, `GEMINI_FALLBACK_MODEL` | Gemini text model names |
 | `GEMINI_EMBEDDING_MODEL` | Gemini embedding model name |

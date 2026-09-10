@@ -1,6 +1,6 @@
-﻿import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth.js';
 import './LoginPage.css';
@@ -8,10 +8,12 @@ import './LoginPage.css';
 function LoginPage() {
   const { login, isSubmitting } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [notice] = useState(() => location.state?.notice || '');
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -23,7 +25,7 @@ function LoginPage() {
       const response = requestError.response?.data;
       if (response?.code === 'EMAIL_NOT_VERIFIED') {
         sessionStorage.setItem('chatly_verification_email', response.email);
-        navigate('/verify-email', { state: { email: response.email } });
+        navigate('/verify-email', { state: { email: response.email, verificationStatus: response } });
         return;
       }
       setError(response?.message || 'Unable to reach the server. Please try again.');
@@ -38,6 +40,7 @@ function LoginPage() {
         <p className="login-kicker">Welcome back</p>
         <h1>Sign in to ChatlyAI</h1>
         <p className="login-intro">Use your email and password to continue.</p>
+        {notice && <p className="login-notice" role="status">{notice}</p>}
 
         <form className="login-form" onSubmit={handleSubmit}>
           <label><span>Email address</span><div className="login-input"><Mail size={18} /><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" placeholder="you@example.com" /></div></label>

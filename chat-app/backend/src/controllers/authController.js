@@ -1,4 +1,4 @@
-﻿import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
 import User from '../models/User.js';
@@ -19,16 +19,13 @@ function getVerificationState(user) {
   const isOtpActive = Boolean(user.emailVerificationOtpHash
     && user.emailVerificationExpiresAt
     && user.emailVerificationExpiresAt.getTime() > now);
-  const resendAt = user.emailVerificationLastSentAt
-    ? new Date(user.emailVerificationLastSentAt.getTime() + OTP_RESEND_COOLDOWN_MS)
-    : null;
-  const isResendCoolingDown = isOtpActive && resendAt && resendAt.getTime() > now;
 
   return {
     verificationRequired: true,
     email: user.email,
     otpExpiresAt: isOtpActive ? user.emailVerificationExpiresAt.toISOString() : null,
-    resendAvailableAt: isResendCoolingDown ? resendAt.toISOString() : null,
+    // A verification code is never replaced while it is still valid.
+    resendAvailableAt: isOtpActive ? user.emailVerificationExpiresAt.toISOString() : null,
   };
 }
 
@@ -50,7 +47,15 @@ async function createAndSendVerificationOtp(user) {
   user.emailVerificationAttempts = 0;
   user.emailVerificationLastSentAt = new Date();
   await user.save();
-  await sendVerificationOtpEmail({ email: user.email, otp });
+
+  try {
+    await sendVerificationOtpEmail({ email: user.email, otp });
+  } catch (error) {
+    // Do not leave the user waiting for an OTP that email delivery did not send.
+    clearVerificationOtp(user);
+    await user.save();
+    throw error;
+  }
 }
 
 export async function register(req, res, next) {
@@ -65,8 +70,15 @@ export async function register(req, res, next) {
       username, email, displayName, password: req.body.password, emailVerified: false,
       unverifiedAccountExpiresAt: new Date(Date.now() + UNVERIFIED_ACCOUNT_EXPIRY_MS),
     });
-    await createAndSendVerificationOtp(user);
-    return verificationResponse(res, 201, user, 'We sent a 6-digit verification code to your email.');
+
+    try {
+      await createAndSendVerificationOtp(user);
+      return verificationResponse(res, 201, user, 'We sent a 6-digit verification code to your email. Check your inbox and spam folder.');
+    } catch {
+      // The account remains unverified, and the OTP helper clears any code that
+      // was not delivered. The client can take the user to the retry screen.
+      return verificationResponse(res, 503, user, 'Your account was created, but we could not send the verification code. Try again to receive a new code.');
+    }
   } catch (error) {
     if (error.code === 11000) return res.status(409).json({ message: 'That username or email address is already in use.' });
     return next(error);
@@ -121,10 +133,11 @@ export async function resendVerificationOtp(req, res, next) {
     if (!user || user.isSystemBot || user.emailVerified) {
       return res.json({ message: 'If this account needs verification, a new code has been sent.' });
     }
-    const elapsed = Date.now() - new Date(user.emailVerificationLastSentAt || 0).getTime();
-    if (user.emailVerificationOtpHash && user.emailVerificationExpiresAt > new Date() && elapsed < OTP_RESEND_COOLDOWN_MS) {
-      const waitSeconds = Math.ceil((OTP_RESEND_COOLDOWN_MS - elapsed) / 1000);
-      return res.status(429).json({ ...getVerificationState(user), message: `Please wait ${waitSeconds} seconds before requesting another code.` });
+    if (user.emailVerificationOtpHash && user.emailVerificationExpiresAt > new Date()) {
+      return res.status(409).json({
+        ...getVerificationState(user),
+        message: 'Your verification code is still active. Check your inbox or wait for it to expire before requesting a new one.',
+      });
     }
     await createAndSendVerificationOtp(user);
     return verificationResponse(res, 200, user, 'A new verification code has been sent.');
@@ -148,14 +161,31 @@ async function createAndSendPasswordResetOtp(user) {
   user.passwordResetExpiresAt = new Date(Date.now() + OTP_EXPIRY_MS);
   user.passwordResetAttempts = 0; user.passwordResetLastSentAt = new Date(); user.passwordResetTokenHash = undefined; user.passwordResetTokenExpiresAt = undefined;
   await user.save();
-  await sendPasswordResetOtpEmail({ email: user.email, otp });
+
+  try {
+    await sendPasswordResetOtpEmail({ email: user.email, otp });
+  } catch (error) {
+    clearPasswordReset(user);
+    await user.save();
+    throw error;
+  }
 }
 
 export async function requestPasswordReset(req, res, next) {
   try {
     const email = req.body.email.trim().toLowerCase();
     const user = await User.findOne({ email });
+    // Keep this response generic for unknown and unverified addresses so this endpoint
+    // cannot be used to discover which email accounts exist.
     if (!user || user.isSystemBot || user.emailVerified === false) return res.json({ message: 'If an eligible account exists, a password reset code has been sent.' });
+
+    const resetState = getPasswordResetState(user);
+    // Submitting the first form again must not silently invalidate an email code that
+    // the user may still be reading. A replacement is available only via resend.
+    if (resetState.otpExpiresAt) {
+      return res.json({ ...resetState, message: 'A reset code was already sent. Check your inbox and spam folder.' });
+    }
+
     await createAndSendPasswordResetOtp(user);
     return res.json({ ...getPasswordResetState(user), message: 'We sent a 6-digit reset code to your email.' });
   } catch (error) { return next(error); }
@@ -176,7 +206,12 @@ export async function resendPasswordResetOtp(req, res, next) {
 export async function verifyPasswordResetOtp(req, res, next) {
   try {
     const user = await User.findOne({ email: req.body.email.trim().toLowerCase() });
-    if (!user || user.isSystemBot || !user.passwordResetOtpHash || !user.passwordResetExpiresAt || user.passwordResetExpiresAt <= new Date()) return res.status(400).json({ message: 'This reset code is invalid or expired. Request a new code.' });
+    if (!user || user.isSystemBot || !user.passwordResetOtpHash || !user.passwordResetExpiresAt) return res.status(400).json({ message: 'This reset code is invalid or expired. Request a new code.' });
+    if (user.passwordResetExpiresAt <= new Date()) {
+      clearPasswordReset(user);
+      await user.save();
+      return res.status(400).json({ message: 'This reset code expired. Request a new code.' });
+    }
     if (user.passwordResetAttempts >= MAX_OTP_ATTEMPTS) { clearPasswordReset(user); await user.save(); return res.status(429).json({ message: 'Too many incorrect attempts. Request a new code.' }); }
     if (!(await bcrypt.compare(req.body.otp, user.passwordResetOtpHash))) { user.passwordResetAttempts += 1; await user.save(); return res.status(400).json({ message: `Invalid code. ${MAX_OTP_ATTEMPTS - user.passwordResetAttempts} attempt(s) remaining.` }); }
     const resetToken = crypto.randomBytes(32).toString('hex');
