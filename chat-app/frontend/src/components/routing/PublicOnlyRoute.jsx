@@ -2,9 +2,10 @@ import { Navigate } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth.js';
 
-/** Prevents signed-in users from returning to Login or Register pages. */
+/** Wait for backend JWT verification before redirecting a user away from public auth pages. */
 function PublicOnlyRoute({ children }) {
-  const { user } = useAuth();
+  const { user, isAuthReady } = useAuth();
+  if (!isAuthReady) return <div className="auth-route-loading" role="status">Checking your session...</div>;
   return user ? <Navigate to="/app" replace /> : children;
 }
 

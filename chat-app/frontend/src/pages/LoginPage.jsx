@@ -25,6 +25,7 @@ function LoginPage() {
       const response = requestError.response?.data;
       if (response?.code === 'EMAIL_NOT_VERIFIED') {
         sessionStorage.setItem('chatly_verification_email', response.email);
+        sessionStorage.setItem('chatly_verification_session', response.verificationSessionToken);
         navigate('/verify-email', { state: { email: response.email, verificationStatus: response } });
         return;
       }

@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 /**
@@ -66,6 +66,10 @@ const userSchema = new Schema(
     emailVerificationExpiresAt: { type: Date, default: undefined },
     emailVerificationAttempts: { type: Number, default: 0 },
     emailVerificationLastSentAt: { type: Date, default: undefined },
+    // A short-lived, opaque token held only by the browser that started
+    // registration. It authorizes correcting a typo before verification.
+    verificationSessionTokenHash: { type: String, default: undefined },
+    verificationSessionTokenExpiresAt: { type: Date, default: undefined },
     // MongoDB TTL index removes abandoned, unverified registrations after seven days.
     unverifiedAccountExpiresAt: { type: Date, default: undefined },
 
@@ -160,6 +164,8 @@ userSchema.methods.toSafeObject = function toSafeObject() {
   delete obj.emailVerificationExpiresAt;
   delete obj.emailVerificationAttempts;
   delete obj.emailVerificationLastSentAt;
+  delete obj.verificationSessionTokenHash;
+  delete obj.verificationSessionTokenExpiresAt;
   delete obj.unverifiedAccountExpiresAt;
   delete obj.passwordResetOtpHash;
   delete obj.passwordResetExpiresAt;

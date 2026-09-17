@@ -13,3 +13,23 @@
 .button { border-radius:12px; transition:transform .18s ease,box-shadow .18s ease,background .18s ease; }.button-primary { color:#fff; box-shadow:0 8px 18px rgb(15 159 121 / 23%); }.button-secondary { background:#fff; box-shadow:0 5px 16px rgb(15 23 42 / 5%); }.button:hover { transform:translateY(-2px); }
 .hero-badge { background:#e8f8f2; border-color:#bcebdd; }.hero-title { color:#193047; }.hero-description { color:#587087; }
 .chat-preview { border-color:#dce7ee; background:#fff; box-shadow:0 24px 55px rgb(15 23 42 / 12%); }.preview-header { border-color:#e8eef2; }.message-received { background:#f0f5f8; }.message-ai { background:#e7f7f1; }.preview-composer { background:#f7fafc; }.landing-features { border-color:#e1eaef; background:#fff; }
+
+/* Public theme control and explicit dark-mode contrast. */
+.landing-theme-toggle { display:grid; width:42px; height:42px; flex:0 0 auto; place-items:center; border:1px solid #d6e5e7; border-radius:12px; background:#eef6f6; color:#087c60; cursor:pointer; transition:transform .18s ease,background .18s ease,color .18s ease; }
+.landing-theme-toggle:hover { background:#dff3ed; color:#06684f; transform:translateY(-2px); }
+.landing-theme-toggle:focus-visible { outline:3px solid rgb(15 159 121 / 28%); outline-offset:3px; }
+html[data-theme='dark'] .landing-page { background:linear-gradient(135deg,#0f1720 0,#10251f 52%,#10232b 100%); color:#e6edf3; }
+html[data-theme='dark'] .landing-brand,html[data-theme='dark'] .hero-title { color:#eef7fb !important; }
+html[data-theme='dark'] .landing-theme-toggle { border-color:#35505d; background:#1b2d39; color:#7ce5c1; }
+html[data-theme='dark'] .landing-theme-toggle:hover { background:#254352; color:#fff; }
+html[data-theme='dark'] .landing-page .button-login { color:#f4fbff !important; border:1px solid #45616e; background:#1a2a37; }
+html[data-theme='dark'] .landing-page .button-login:hover { background:#29404e; color:#fff !important; }
+html[data-theme='dark'] .landing-page .button-secondary { color:#e9f4f7; border-color:#405c68; background:#1a2a37; }
+html[data-theme='dark'] .landing-page .button-primary { color:#fff; }
+html[data-theme='dark'] .landing-page .chat-preview { border-color:#304452; background:#152532; box-shadow:0 24px 55px rgb(0 0 0 / 28%); }
+html[data-theme='dark'] .landing-page .preview-header { border-color:#304452; }
+html[data-theme='dark'] .landing-page .message-received { background:#1e3240; }
+html[data-theme='dark'] .landing-page .message-ai { background:#16483d; }
+html[data-theme='dark'] .landing-page .preview-composer { background:#10202b; }
+html[data-theme='dark'] .landing-page .landing-features { border-color:#2b414e; background:#142430; }
+html[data-theme='dark'] .landing-page .hero-description,html[data-theme='dark'] .landing-page .privacy-note,html[data-theme='dark'] .landing-page .landing-footer,html[data-theme='dark'] .landing-page .message-ai ul,html[data-theme='dark'] .landing-page .preview-note,html[data-theme='dark'] .landing-page .preview-composer { color:#b9cad5; }

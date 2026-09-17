@@ -77,11 +77,12 @@ const PORT = process.env.PORT || 5000;
 async function start() {
   await connectDB();
 
-  // Socket IDs disappear when Node restarts, so clear stale presence left by
-  // a previous server process before accepting fresh Socket.IO connections.
+  // Socket IDs disappear when Node restarts, so clear stale online state left by
+  // a previous server process. Do not overwrite lastSeen here: a restart
+  // must not make inactive users appear to have been online just now.
   await User.updateMany(
     { isSystemBot: false },
-    { $set: { isOnline: false, socketIds: [], lastSeen: new Date() } },
+    { $set: { isOnline: false, socketIds: [] } },
   );
 
   server.listen(PORT, () => {

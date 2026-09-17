@@ -1,4 +1,4 @@
-﻿const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USERNAME_PATTERN = /^[a-zA-Z0-9_]+$/;
 const OBJECT_ID_PATTERN = /^[a-f\d]{24}$/i;
 
@@ -46,6 +46,18 @@ export function validateVerificationResend(req, res, next) {
   if (Object.keys(req.body || {}).some((field) => field !== 'email')
     || typeof email !== 'string' || !EMAIL_PATTERN.test(email.trim())) {
     return invalid(res, 'Provide a valid email address.');
+  }
+  return next();
+}
+
+/** A pending registrant may correct their email only with their short-lived registration session. */
+export function validateUnverifiedEmailChange(req, res, next) {
+  const { email, newEmail, verificationSessionToken } = req.body || {};
+  if (Object.keys(req.body || {}).some((field) => !['email', 'newEmail', 'verificationSessionToken'].includes(field))
+    || typeof email !== 'string' || !EMAIL_PATTERN.test(email.trim())
+    || typeof newEmail !== 'string' || !EMAIL_PATTERN.test(newEmail.trim())
+    || typeof verificationSessionToken !== 'string' || !/^[a-f\d]{64}$/i.test(verificationSessionToken)) {
+    return invalid(res, 'Provide your current email, a valid new email address, and registration session.');
   }
   return next();
 }

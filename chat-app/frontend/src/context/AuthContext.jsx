@@ -14,9 +14,40 @@ function getSavedUser() {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(getSavedUser);
+  const [user, setUser] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
+  useEffect(() => {
+    let isCurrent = true;
+
+    async function verifySavedSession() {
+      const token = localStorage.getItem('chatly_token');
+      const savedUser = getSavedUser();
+      if (!token || !savedUser) {
+        localStorage.removeItem('chatly_token');
+        if (isCurrent) setIsAuthReady(true);
+        return;
+      }
+
+      try {
+        const { data } = await api.get('/api/auth/me');
+        if (!isCurrent) return;
+        localStorage.setItem('chatly_user', JSON.stringify(data.user));
+        setUser(data.user);
+      } catch {
+        disconnectSocket();
+        localStorage.removeItem('chatly_token');
+        localStorage.removeItem('chatly_user');
+        if (isCurrent) setUser(null);
+      } finally {
+        if (isCurrent) setIsAuthReady(true);
+      }
+    }
+
+    verifySavedSession();
+    return () => { isCurrent = false; };
+  }, []);
   useEffect(() => {
     function handleInvalidSession() {
       disconnectSocket();
@@ -82,6 +113,16 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function changeUnverifiedEmail(details) {
+    setIsSubmitting(true);
+    try {
+      const { data } = await api.post('/api/auth/change-unverified-email', details);
+      return data;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   async function requestPasswordReset(email) { setIsSubmitting(true); try { const { data } = await api.post('/api/auth/forgot-password', { email }); return data; } finally { setIsSubmitting(false); } }
   async function resendPasswordResetOtp(email) { setIsSubmitting(true); try { const { data } = await api.post('/api/auth/resend-password-reset-otp', { email }); return data; } finally { setIsSubmitting(false); } }
   async function verifyPasswordResetOtp(details) { setIsSubmitting(true); try { const { data } = await api.post('/api/auth/verify-password-reset-otp', details); return data; } finally { setIsSubmitting(false); } }
@@ -129,5 +170,5 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
-  return <AuthContext.Provider value={{ user, isSubmitting, login, register, getEmailVerificationStatus, verifyEmail, resendVerificationOtp, requestPasswordReset, resendPasswordResetOtp, verifyPasswordResetOtp, resetPassword, updateProfile, updateAvatar, changePassword, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAuthReady, isSubmitting, login, register, getEmailVerificationStatus, verifyEmail, resendVerificationOtp, changeUnverifiedEmail, requestPasswordReset, resendPasswordResetOtp, verifyPasswordResetOtp, resetPassword, updateProfile, updateAvatar, changePassword, logout }}>{children}</AuthContext.Provider>;
 }

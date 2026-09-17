@@ -9,3 +9,5 @@ html { scrollbar-width:thin; scrollbar-color:#c5d2db transparent; }
 *::-webkit-scrollbar-thumb:hover { background:#96a9b7; background-clip:padding-box; }
 html[data-theme='dark'] { color-scheme:dark; scrollbar-color:#526171 transparent; }
 html[data-theme='dark'] *::-webkit-scrollbar-thumb { background:#526171; background-clip:padding-box; }
+
+.auth-route-loading{display:grid;min-height:100dvh;place-items:center;background:#f7fafc;color:#587087;font:600 14px/1.5 Arial,sans-serif}html[data-theme='dark'] .auth-route-loading{background:#0f1720;color:#b9cad5}

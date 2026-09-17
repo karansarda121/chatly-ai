@@ -4,18 +4,22 @@ import {
   CheckCheck,
   LogOut,
   MessageCircle,
+  Moon,
   ShieldCheck,
   Sparkles,
+  Sun,
   UsersRound,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import FeatureCard from './FeatureCard.jsx';
 import useAuth from '../hooks/useAuth.js';
+import useTheme from '../hooks/useTheme.js';
 import './LandingPage.css';
 
 function LandingPage() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="landing-page">
@@ -28,6 +32,9 @@ function LandingPage() {
         </a>
 
         <nav className="landing-actions" aria-label="Account actions">
+          <button type="button" className="landing-theme-toggle" onClick={toggleTheme} aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'} title={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}>
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
           {user ? (
             <>
               <Link to="/app" className="button button-primary">Open Chatly</Link>

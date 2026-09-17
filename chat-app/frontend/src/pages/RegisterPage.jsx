@@ -55,11 +55,13 @@ function RegisterPage() {
       const { confirmPassword: _confirmPassword, ...details } = form;
       const result = await register(details);
       sessionStorage.setItem('chatly_verification_email', result.email);
+      sessionStorage.setItem('chatly_verification_session', result.verificationSessionToken);
       navigate('/verify-email', { state: { email: result.email, verificationStatus: result, notice: result.message } });
     } catch (requestError) {
       const response = requestError.response?.data;
       if (response?.verificationRequired && response.email) {
         sessionStorage.setItem('chatly_verification_email', response.email);
+        if (response.verificationSessionToken) sessionStorage.setItem('chatly_verification_session', response.verificationSessionToken);
         navigate('/verify-email', {
           state: {
             email: response.email,

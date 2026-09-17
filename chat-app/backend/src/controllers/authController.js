@@ -8,6 +8,7 @@ import { generateToken } from '../utils/generateToken.js';
 const OTP_EXPIRY_MS = 10 * 60 * 1000;
 const OTP_RESEND_COOLDOWN_MS = 60 * 1000;
 const UNVERIFIED_ACCOUNT_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
+const VERIFICATION_SESSION_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 const MAX_OTP_ATTEMPTS = 5;
 
 function sendAuthResponse(res, statusCode, user) {
@@ -31,6 +32,21 @@ function getVerificationState(user) {
 
 function verificationResponse(res, statusCode, user, message) {
   return res.status(statusCode).json({ ...getVerificationState(user), message });
+}
+
+function issueVerificationSession(user) {
+  const verificationSessionToken = crypto.randomBytes(32).toString('hex');
+  user.verificationSessionTokenHash = crypto.createHash('sha256').update(verificationSessionToken).digest('hex');
+  user.verificationSessionTokenExpiresAt = new Date(Date.now() + VERIFICATION_SESSION_EXPIRY_MS);
+  return verificationSessionToken;
+}
+
+function verificationResponseWithSession(res, statusCode, user, message, verificationSessionToken) {
+  return res.status(statusCode).json({
+    ...getVerificationState(user),
+    message,
+    verificationSessionToken,
+  });
 }
 
 function clearVerificationOtp(user) {
@@ -70,14 +86,16 @@ export async function register(req, res, next) {
       username, email, displayName, password: req.body.password, emailVerified: false,
       unverifiedAccountExpiresAt: new Date(Date.now() + UNVERIFIED_ACCOUNT_EXPIRY_MS),
     });
+    const verificationSessionToken = issueVerificationSession(user);
+    await user.save();
 
     try {
       await createAndSendVerificationOtp(user);
-      return verificationResponse(res, 201, user, 'We sent a 6-digit verification code to your email. Check your inbox and spam folder.');
+      return verificationResponseWithSession(res, 201, user, 'We sent a 6-digit verification code to your email. Check your inbox and spam folder.', verificationSessionToken);
     } catch {
       // The account remains unverified, and the OTP helper clears any code that
       // was not delivered. The client can take the user to the retry screen.
-      return verificationResponse(res, 503, user, 'Your account was created, but we could not send the verification code. Try again to receive a new code.');
+      return verificationResponseWithSession(res, 503, user, 'Your account was created, but we could not send the verification code. Try again to receive a new code.', verificationSessionToken);
     }
   } catch (error) {
     if (error.code === 11000) return res.status(409).json({ message: 'That username or email address is already in use.' });
@@ -120,10 +138,43 @@ export async function verifyEmail(req, res, next) {
 
     user.emailVerified = true;
     user.unverifiedAccountExpiresAt = undefined;
+    user.verificationSessionTokenHash = undefined;
+    user.verificationSessionTokenExpiresAt = undefined;
     clearVerificationOtp(user);
     await user.save();
     return res.json({ message: 'Email verified successfully. Please log in.' });
   } catch (error) { return next(error); }
+}
+
+export async function changeUnverifiedEmail(req, res, next) {
+  try {
+    const email = req.body.email.trim().toLowerCase();
+    const newEmail = req.body.newEmail.trim().toLowerCase();
+    const tokenHash = crypto.createHash('sha256').update(req.body.verificationSessionToken).digest('hex');
+    const user = await User.findOne({ email, emailVerified: false, verificationSessionTokenHash: tokenHash });
+
+    if (!user || !user.verificationSessionTokenExpiresAt || user.verificationSessionTokenExpiresAt <= new Date()) {
+      return res.status(403).json({ message: 'Your registration session expired. Please register again.' });
+    }
+    if (email === newEmail) return res.status(400).json({ message: 'Enter a different email address.' });
+
+    const emailInUse = await User.exists({ _id: { $ne: user._id }, email: newEmail });
+    if (emailInUse) return res.status(409).json({ message: 'That email address is already in use.' });
+
+    user.email = newEmail;
+    clearVerificationOtp(user);
+    await user.save();
+
+    try {
+      await createAndSendVerificationOtp(user);
+      return verificationResponse(res, 200, user, 'Your email was updated. We sent a new verification code. Check your inbox and spam folder.');
+    } catch {
+      return verificationResponse(res, 503, user, 'Your email was updated, but we could not send a verification code. Try again or use another email address.');
+    }
+  } catch (error) {
+    if (error.code === 11000) return res.status(409).json({ message: 'That email address is already in use.' });
+    return next(error);
+  }
 }
 
 export async function resendVerificationOtp(req, res, next) {
@@ -238,7 +289,16 @@ export async function login(req, res, next) {
   try {
     const user = await User.findOne({ email: req.body.email.trim().toLowerCase() });
     if (!user || user.isSystemBot || !(await user.comparePassword(req.body.password))) return res.status(401).json({ message: 'Incorrect email or password.' });
-    if (user.emailVerified === false) return res.status(403).json({ code: 'EMAIL_NOT_VERIFIED', ...getVerificationState(user), message: 'Verify your email before logging in.' });
+    if (user.emailVerified === false) {
+      const verificationSessionToken = issueVerificationSession(user);
+      await user.save();
+      return res.status(403).json({
+        code: 'EMAIL_NOT_VERIFIED',
+        ...getVerificationState(user),
+        verificationSessionToken,
+        message: 'Verify your email before logging in.',
+      });
+    }
     return sendAuthResponse(res, 200, user);
   } catch (error) { return next(error); }
 }
